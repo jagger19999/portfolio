@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>驾驶模拟人因研究平台搭建与应用</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "HarmonyOS Sans SC", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+      color: #111827;
+      background: #f8fafc;
+    }
+    .section-title { letter-spacing: -0.02em; }
+  </style>
+</head>
+<body>
+<div class="min-h-screen bg-slate-50">
+<header class="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur">
+<div class="mx-auto max-w-7xl px-6 py-4 lg:px-8">
+<div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+<div>
+<p class="text-xs font-semibold uppercase tracking-widest text-blue-700">Portfolio Case Study</p>
+<h1 class="mt-1 text-xl font-bold text-slate-900 md:text-2xl">驾驶模拟人因研究平台搭建与应用</h1>
+</div>
+<nav class="flex flex-wrap gap-4 text-sm text-slate-600">
+<a class="transition hover:text-blue-700" href="#overview">项目概览</a>
+<a class="transition hover:text-blue-700" href="#modules">核心模块</a>
+<a class="transition hover:text-blue-700" href="#value">项目价值</a>
+</nav>
+</div>
+</div>
+</header>
+<main class="mx-auto max-w-7xl px-6 py-10 lg:px-8 lg:py-12">
+<section class="mb-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm lg:p-8">
+<p class="text-sm font-semibold text-blue-700">个人信息</p>
+<div class="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+<p class="text-xs font-semibold tracking-wide text-blue-700">姓名</p>
+<p class="mt-2 text-sm font-semibold text-slate-900">王杰</p>
+</div>
+<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+<p class="text-xs font-semibold tracking-wide text-blue-700">求职意向</p>
+<p class="mt-2 text-sm font-semibold text-slate-900">人因用户研究实习</p>
+</div>
+<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+<p class="text-xs font-semibold tracking-wide text-blue-700">手机号</p>
+<p class="mt-2 text-sm font-semibold text-slate-900">13584012372</p>
+</div>
+<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+<p class="text-xs font-semibold tracking-wide text-blue-700">邮箱</p>
+<p class="mt-2 text-sm font-semibold text-slate-900">242312036@njnu.edu.cn</p>
+</div>
+</div>
+</section>
+<section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm lg:p-8" id="overview">
+<div class="grid gap-8 lg:grid-cols-12 lg:items-start">
+<div class="lg:col-span-7">
+<p class="text-sm font-semibold tracking-wider text-blue-700">项目摘要</p>
+<h2 class="section-title mt-3 text-3xl font-extrabold leading-tight text-slate-900 lg:text-[2.5rem]">从 0-1 搭建驾驶模拟研究平台，并完成多模态实验接入与研究支撑</h2>
+<p class="mt-5 max-w-3xl text-[17px] leading-[1.8] text-slate-600">
+围绕驾驶人因研究需求，独立完成从实验场景搭建、多模态设备接入与同步、行为分析支持到成果输出的全流程推进，支撑驾驶模拟实验的稳定运行与研究验证。
+</p>
+<div class="mt-8 flex flex-wrap gap-3">
+<span class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-700">人因研究</span>
+<span class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-700">驾驶模拟</span>
+<span class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-700">多模态实验</span>
+<span class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-700">场景评估</span>
+</div>
+</div>
+<div class="lg:col-span-5">
+<div class="grid gap-4 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+<p class="text-xs font-semibold tracking-wide text-blue-700">项目角色</p>
+<p class="mt-2 text-sm leading-7 text-slate-700">主导平台搭建、多模态接入、研究分析与成果输出</p>
+</div>
+<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+<p class="text-xs font-semibold tracking-wide text-blue-700">研究对象</p>
+<p class="mt-2 text-sm leading-7 text-slate-700">驾驶行为 / 眼动 / 皮电 / 心率等多源实验数据</p>
+</div>
+<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+<p class="text-xs font-semibold tracking-wide text-blue-700">关键贡献</p>
+<ul class="mt-2 space-y-2 text-sm leading-7 text-slate-700">
+<li>0-1 搭建驾驶模拟实验平台</li>
+<li>建立多设备同步采集机制</li>
+<li>支撑分析验证与阶段性成果输出</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="mt-8" id="modules">
+<div class="mb-5 flex items-end justify-between gap-4">
+<div>
+<p class="text-sm font-semibold text-blue-700">核心模块</p>
+<h3 class="section-title mt-1 text-2xl font-bold text-slate-900">平台搭建 → 数据接入 → 行为分析 → 成果输出</h3>
+</div>
+<p class="hidden text-sm text-slate-500 lg:block"></p>
+</div>
+<div class="grid gap-6 lg:grid-cols-2">
+<article class="flex h-full flex-col rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+<div class="flex items-center gap-3">
+<span class="text-sm font-semibold text-blue-700">01</span>
+<h4 class="text-lg font-bold text-slate-900">实验场景与平台搭建</h4>
+</div>
+<div class="mt-4 space-y-5 text-[15px] leading-relaxed text-slate-700">
+<div>
+<p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-blue-600"></span>目标</p>
+<p class="pl-3.5 text-slate-600">搭建可支撑驾驶模拟研究的实验场景与软硬件运行环境。</p>
+</div>
+<div>
+<p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-blue-600"></span>完成</p>
+<ul class="space-y-2 pl-3.5 text-slate-600">
+<li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>基于 Unity 从 0-1 搭建驾驶实验场景，完成道路环境、事件逻辑与实验流程开发。</li>
+<li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>打通驾驶模拟器、显示系统与实验计算设备，实现软硬件联调与稳定运行。</li>
+<li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>针对道路、绿化与环境细节进行渲染优化，兼顾画面表现与运行性能，支持较低配置设备完成 90 分钟以上实验任务。</li>
+</ul>
+</div>
+<div class="flex flex-wrap gap-2 pt-2">
+<span class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">Unity 场景开发</span>
+<span class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">软硬件联调</span>
+<span class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">渲染优化</span>
+</div>
+</div>
+<div class="mt-5 grid flex-1 gap-4">
+<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+<p class="mb-4 text-sm font-bold text-slate-900">基于实验目的选择不同驾驶模拟环境</p>
+<div class="grid gap-6 md:grid-cols-2">
+<div class="grid gap-3">
+<img alt="驾驶场景可视化" class="aspect-video w-full rounded-xl border border-slate-200 object-cover bg-white" src="./驾驶场景.png"/>
+<img alt="驾驶平台外部实体展示" class="aspect-video w-full rounded-xl border border-slate-200 object-cover bg-white" src="./驾驶平台外部实体.png"/>
+<p class="mt-1 text-xs font-semibold text-slate-900 text-center">桌面版驾驶模拟实验场景</p>
+</div>
+<div class="space-y-4">
+<div>
+<p class="text-xs font-bold text-blue-700">真实操控与驾驶负荷场景</p>
+<p class="mt-1 text-xs leading-5 text-slate-600"><span class="font-semibold text-slate-800">适配平台：</span>真实模拟器</p>
+<p class="mt-1 text-xs leading-5 text-slate-600">转向、制动、跟车、变道、接管、操作稳定性，以及方向盘、踏板、座椅振动等真实驾驶负荷研究。</p>
+</div>
+<div>
+<p class="text-xs font-bold text-blue-700">座舱交互与产品验证场景</p>
+<p class="mt-1 text-xs leading-5 text-slate-600"><span class="font-semibold text-slate-800">适配平台：</span>真实模拟器</p>
+<p class="mt-1 text-xs leading-5 text-slate-600">HUD、中控、语音、警报、按键/触屏、ADAS提醒等在真实硬件条件下的可用性和落地效果验证。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+<div class="grid gap-6 md:grid-cols-2">
+<div class="grid gap-3">
+<img alt="Unity VR驾驶模拟实验场景1" class="aspect-video w-full rounded-xl border border-slate-200 object-cover bg-white" src="./vr1.jpg"/>
+<img alt="Unity VR驾驶模拟实验场景2" class="aspect-video w-full rounded-xl border border-slate-200 object-cover bg-white" src="./vr2.jpg"/>
+<p class="mt-1 text-xs font-semibold text-slate-900 text-center">VR版驾驶模拟实验场景（HTC Vive Pro Eye + Tobii XR）</p>
+</div>
+<div class="space-y-4">
+<div>
+<p class="text-xs font-bold text-blue-700">危险事件与应急反应场景</p>
+<p class="mt-1 text-xs leading-5 text-slate-600"><span class="font-semibold text-slate-800">适配平台：</span>VR模拟器</p>
+<p class="mt-1 text-xs leading-5 text-slate-600">突发行人、鬼探头、前车急刹、恶劣天气、低能见度等高风险事件下的反应时间、避撞行为、注意力分配。</p>
+</div>
+<div>
+<p class="text-xs font-bold text-blue-700">视觉注意与眼动行为场景</p>
+<p class="mt-1 text-xs leading-5 text-slate-600"><span class="font-semibold text-slate-800">适配平台：</span>VR模拟器</p>
+<p class="mt-1 text-xs leading-5 text-slate-600">驾驶员看哪里、看多久、扫视路径、分心检测、界面信息搜索、警示提示是否被看见等研究。</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+<div class="flex items-center gap-3">
+<span class="text-sm font-semibold text-blue-700">02</span>
+<h4 class="text-lg font-bold text-slate-900">多模态数据接入与同步</h4>
+</div>
+<div class="mt-4 space-y-5 text-[15px] leading-relaxed text-slate-700">
+<div>
+<p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-blue-600"></span>目标</p>
+<p class="pl-3.5 text-slate-600">建立驾驶任务、眼动、生理信号与视频流的统一采集、保存与分析基础。</p>
+</div>
+<div>
+<p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-blue-600"></span>完成</p>
+<ul class="space-y-2 pl-3.5 text-slate-600">
+<li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>将驾驶任务、眼动、心率及心率变异性、皮肤电等不同采样率模态数据汇集到统一软件中进行同步采集。</li>
+<li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>支持统一保存、统一打标记与事后分析，同时集成视频直播及眼动映射视频保存。</li>
+<li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>沉淀为可直接用于语义分割及机器学习的数据基础，减少后续人工整理与手动标记成本。</li>
+</ul>
+</div>
+<div class="flex flex-wrap gap-2 pt-2">
+<span class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">多设备接入</span>
+<span class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">统一保存</span>
+<span class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">自动打标</span>
+</div>
+</div>
+<div class="mt-5 rounded-3xl border border-slate-200 bg-slate-50 p-4">
+<div class="grid gap-3 lg:grid-cols-3">
+<div class="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+<img alt="驾驶任务场景" class="h-20 w-full rounded-xl border border-slate-200 object-cover" src="./驾驶情景.png"/>
+<p class="mt-3 text-xs font-semibold text-slate-900">驾驶场景</p>
+<p class="mt-1 text-xs leading-5 text-slate-600">驾驶行为、事件触发与场景状态输入</p>
+</div>
+<div class="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+<img alt="眼动仪设备" class="h-20 w-full rounded-xl border border-slate-200 object-contain bg-white" src="./眼动仪.webp"/>
+<p class="mt-3 text-xs font-semibold text-slate-900">眼动设备</p>
+<p class="mt-1 text-xs leading-5 text-slate-600">注视点、扫视轨迹与热点分布数据</p>
+</div>
+<div class="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+<img alt="心率及心率变异性设备" class="h-20 w-full rounded-xl border border-slate-200 object-contain bg-white" src="./心电 ecg.png"/>
+<p class="mt-3 text-xs font-semibold text-slate-900">心率/HRV/皮电</p>
+<p class="mt-1 text-xs leading-5 text-slate-600">心率、HRV 与皮电等生理节律指标接入</p>
+</div>
+</div>
+<div class="py-3 text-center text-blue-700">
+<div class="text-xs font-semibold tracking-wide">多模态设备统一同步保存</div>
+<div class="mt-2 flex items-center justify-center text-2xl leading-none">↓</div>
+</div>
+<div class="mx-auto max-w-4xl rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+<img alt="多模态同步采集软件界面" class="aspect-[16/9] w-full rounded-2xl border border-slate-200 object-cover bg-white" src="./多模态同步软件.png"/>
+<p class="mt-3 text-xs font-semibold text-slate-900">多模态同步采集软件</p>
+<p class="mt-1 text-xs leading-5 text-slate-600">统一汇集多源设备数据并完成同步采集与保存</p>
+</div>
+</div>
+</article>
+<article class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+<div class="flex items-center gap-3">
+<span class="text-sm font-semibold text-blue-700">03</span>
+<h4 class="text-lg font-bold text-slate-900">行为分析与研究支持</h4>
+</div>
+<div class="mt-4 space-y-5 text-[15px] leading-relaxed text-slate-700">
+<div>
+<p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-blue-600"></span>目标</p>
+<p class="pl-3.5 text-slate-600">围绕关键驾驶指标，结合眼动、心率、心率变异性及皮肤电等多模态数据，开展核心指标的对比统计分析与结果解释，提升驾驶行为研究的可解释性。</p>
+</div>
+<div>
+<p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-blue-600"></span>完成</p>
+<ul class="space-y-2 pl-3.5 text-slate-600">
+<li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>围绕速度控制、车道保持、操作反应等关键驾驶指标，结合眼动、心率、心率变异性及皮肤电等多模态数据开展联合分析。</li>
+<li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>基于 Python 数据分析库进行核心指标的对比统计，并结合方差分析、T 检验等方法对实验结果进行显著性验证。</li>
+<li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>结合驾驶行为表现与生理心理指标变化，对实验结果进行解释，为课题假设验证与研究结论形成提供支持。</li>
+</ul>
+</div>
+<div class="flex flex-wrap gap-2 pt-2">
+<span class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">行为分析</span>
+<span class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">多源关联</span>
+<span class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">研究支持</span>
+</div>
+</div>
+<div class="mt-5 grid gap-4 sm:grid-cols-2">
+<div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+<img alt="眼动蜂窝图" class="aspect-video w-full rounded-2xl border border-slate-200 object-cover bg-white" src="./眼动蜂窝图.png"/>
+<p class="mt-3 text-xs font-semibold text-slate-900">眼动蜂窝图</p>
+</div>
+<div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+<img alt="眼动热力图" class="aspect-video w-full rounded-2xl border border-slate-200 object-cover bg-white" src="./眼动热力图.png"/>
+<p class="mt-3 text-xs font-semibold text-slate-900">眼动热力图</p>
+</div>
+</div>
+</article>
+<article class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+<div class="flex items-center gap-3">
+<span class="text-sm font-semibold text-blue-700">04</span>
+<h4 class="text-lg font-bold text-slate-900">可视化汇报与成果输出</h4>
+</div>
+<div class="mt-4 space-y-5 text-[15px] leading-relaxed text-slate-700">
+<div>
+<p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-blue-600"></span>目标</p>
+<p class="pl-3.5 text-slate-600">完成研究成果的整理、可视化表达与会议汇报输出，支撑课题交流与研究传播。</p>
+</div>
+<div>
+<p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-blue-600"></span>完成</p>
+<ul class="space-y-2 pl-3.5 text-slate-600">
+<li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>将驾驶行为指标、眼动结果及生理数据分析结论进行整合，提炼形成可展示的核心研究发现。</li>
+<li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>围绕实验背景、研究方法、关键结果与结论，制作汇报页面、展示图表及会议汇报材料。</li>
+<li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>针对高速公路绿化隔离带对驾驶员警惕性影响这一研究主题，完成成果梳理与对外交流表达。</li>
+</ul>
+</div>
+<div>
+<p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-blue-600"></span>成果</p>
+<p class="pl-3.5 text-slate-600">相关成果已在“人因工程与智能系统交互国际会议”上完成汇报，并获得同行沟通交流与反馈。</p>
+</div>
+<div class="flex flex-wrap gap-2 pt-2">
+<span class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">结果可视化</span>
+<span class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">汇报表达</span>
+<span class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">成果输出</span>
+</div>
+</div>
+<div class="mt-5 grid gap-4 sm:grid-cols-2">
+<div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+<img alt="驾驶模拟实验场景1" class="aspect-video w-full rounded-2xl border border-slate-200 object-cover" src="./场景 1.jpg"/>
+<p class="mt-3 text-xs font-semibold text-slate-900">会议现场</p>
+</div>
+<div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+<img alt="驾驶模拟实验展示场景2" class="aspect-video w-full rounded-2xl border border-slate-200 object-cover" src="./场景 2.jpg"/>
+<p class="mt-3 text-xs font-semibold text-slate-900">会议现场</p>
+</div>
+</div>
+</article>
+</div>
+</section>
+<section class="mt-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm lg:p-8" id="value">
+<div class="grid gap-8 lg:grid-cols-12 lg:items-start">
+<div class="lg:col-span-4">
+<p class="text-sm font-semibold text-blue-700">项目产出与价值</p>
+<h3 class="section-title mt-2 text-2xl font-bold text-slate-900">沉淀为可复用的人因研究基础能力</h3>
+<p class="mt-4 text-sm leading-8 text-slate-700">
+              项目不仅完成单次课题支持，更沉淀出一套可运行、可同步、可分析、可展示的驾驶人因研究基础能力，可持续支撑后续研究验证与展示交流。
+            </p>
+</div>
+<div class="grid gap-4 sm:grid-cols-3 lg:col-span-8">
+<div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+<p class="text-sm font-semibold text-slate-900">01 可运行实验平台</p>
+<p class="mt-2 text-sm leading-7 text-slate-700">支持驾驶场景搭建、事件触发与长时稳定实验运行。</p>
+</div>
+<div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+<p class="text-sm font-semibold text-slate-900">02 可同步采集机制</p>
+<p class="mt-2 text-sm leading-7 text-slate-700">完成驾驶行为、眼动、皮电、心率等多设备数据接入与时间对齐。</p>
+</div>
+<div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+<p class="text-sm font-semibold text-slate-900">03 可复用研究输出</p>
+<p class="mt-2 text-sm leading-7 text-slate-700">支撑课题分析验证、阶段性汇报及对内外交流展示。</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+<script>window.parent.postMessage({ action: "ready" }, "*"); 
+ 
+window.console = new Proxy(console, {
+  get(target, prop) {
+    if (['log', 'warn', 'error'].includes(prop)) {
+      return new Proxy(target[prop], {
+        apply(fn, thisArg, args) {
+          fn.apply(thisArg, args);
+          window.parent.postMessage({ action: 'console', 
+            type: prop, 
+            args: args.map((arg) => {
+              try {
+                return JSON.stringify(arg).replace(/^["']|["']$/g, '');
+              } catch (e) {
+                return arg;
+              }
+            }) 
+          }, '*');
+        }
+      });
+    }
+    return target[prop];
+  }
+});
+</script></body>
+</html>
