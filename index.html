@@ -1,334 +1,1603 @@
 <!DOCTYPE html>
-
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>驾驶模拟人因研究平台搭建与应用</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
+    :root {
+      --ink: #18181b;
+      --body: #3f3f46;
+      --muted: #71717a;
+      --line: #d4d4d8;
+      --accent: #0f766e;
+      --accent-soft: #ccfbf1;
+      --signal-eye: #2ca02c;
+      --signal-ecg: #1f77b4;
+      --signal-drive: #d62728;
+      --signal-eda: #ff7f0e;
+      --event-sync: #0f766e;
+      --event-risk: #dc2626;
+      --bg-dark: #0c1222;
+      --bg-panel: #111827;
+      --bg-track: #0f172a;
+      --border-dim: rgba(24,24,27,0.08);
+      --border-glow-blue: rgba(15,118,110,0.35);
+      --border-glow-red: rgba(220,38,38,0.4);
+      --text-dim: #71717a;
+      --text-bright: #fafafa;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    }
     html { scroll-behavior: smooth; }
     body {
-      font-family: "HarmonyOS Sans SC", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
-      color: #111827;
+      font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(1000px 520px at 92% -8%, rgba(204, 251, 241, 0.55) 0%, transparent 58%),
+        radial-gradient(780px 420px at -8% 18%, rgba(244, 244, 245, 0.9) 0%, transparent 55%),
+        #fafaf9;
+    }
+    h1, h2, h3, h4, .section-title {
+      font-family: "Outfit", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      letter-spacing: -0.03em;
+    }
+    .section-title { letter-spacing: -0.035em; }
+    .case-shell {
+      background: linear-gradient(180deg, rgba(255,255,255,0.72) 0%, rgba(250,250,249,0.96) 48%, #fafaf9 100%);
+    }
+    .meta-card {
+      border: 1px solid rgba(24, 24, 27, 0.08);
+      background: linear-gradient(165deg, #ffffff 0%, #fafafa 100%);
+      box-shadow:
+        0 1px 2px rgba(24, 24, 27, 0.04),
+        0 0 0 1px rgba(24, 24, 27, 0.03);
+      transition: box-shadow 0.35s var(--ease-out-expo), transform 0.35s var(--ease-out-expo), border-color 0.35s var(--ease-out-expo);
+    }
+    .meta-card:hover {
+      border-color: rgba(15, 118, 110, 0.18);
+      box-shadow:
+        0 12px 40px rgba(24, 24, 27, 0.06),
+        0 0 0 1px rgba(15, 118, 110, 0.08);
+      transform: translateY(-2px);
+    }
+    .mono {
+      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      letter-spacing: 0.01em;
+    }
+
+    /* ============ SYNC LAB — COHESIVE THEME ============ */
+    .sync-lab {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(24, 24, 27, 0.08);
+      border-radius: 1.25rem;
+      background:
+        linear-gradient(165deg, rgba(255,255,255,0.94) 0%, #fafafa 45%, rgba(204, 251, 241, 0.22) 100%);
+      padding: 1.25rem;
+      color: var(--ink);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.85);
+    }
+    .sync-lab > * { position: relative; z-index: 1; }
+    .sync-lab::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(to right, rgba(15, 23, 42, 0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: 0.5;
+    }
+
+    /* header strip */
+    .sync-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+    .sync-header .title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: #27272a;
+    }
+    .sync-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      border: 1px solid rgba(15, 118, 110, 0.22);
+      background: rgba(204, 251, 241, 0.45);
+      color: #115e59;
+      border-radius: 999px;
+      padding: 0.2rem 0.6rem;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      transition: background 0.3s var(--ease-out-expo), border-color 0.3s var(--ease-out-expo);
+    }
+    .sync-chip:hover {
+      background: rgba(204, 251, 241, 0.75);
+      border-color: rgba(15, 118, 110, 0.35);
+    }
+
+    /* quick strip */
+    .sync-quickstrip {
+      display: grid;
+      gap: 0.5rem;
+      grid-template-columns: repeat(3, 1fr);
+      margin-bottom: 1rem;
+    }
+    .quick-item {
+      border: 1px solid #dbeafe;
+      border-radius: 0.6rem;
+      background: rgba(255,255,255,0.95);
+      padding: 0.4rem 0.55rem;
+    }
+    .quick-item p:first-child {
+      font-size: 9px;
+      color: #1d4ed8;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+    }
+    .quick-item p:last-child {
+      margin-top: 0.1rem;
+      font-size: 10px;
+      color: #475569;
+      line-height: 1.4;
+      font-weight: 600;
+    }
+
+    /* ============ HORIZONTAL TIMELINE BOARD ============ */
+    .sync-canvas {
+      overflow-x: auto;
+      padding-bottom: 0.3rem;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-gutter: stable both-edges;
+    }
+    .sync-board {
+      --label-col: clamp(120px, 17vw, 210px);
+      --track-gap: 0.6rem;
+      --sync-line-pos: 20%;
+      --event-line-pos: 80%;
+      --sync-x-px: 0px;
+      --event-x-px: 0px;
+      min-width: 1100px;
+      width: max(100%, 1100px);
+      position: relative;
+      border: 1px solid #d1d5db;
+      border-radius: 1rem;
+      background: linear-gradient(180deg, #f8fafc, #f1f5f9);
+      padding: 1rem 1rem 0.8rem;
+    }
+
+    /* board header */
+    .board-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .board-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: 0.04em;
+    }
+    .board-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 10px;
+      color: #115e59;
+      font-weight: 600;
+      border: 1px solid rgba(15, 118, 110, 0.2);
+      background: rgba(204, 251, 241, 0.45);
+      border-radius: 999px;
+      padding: 0.2rem 0.6rem;
+    }
+
+    /* ruler */
+    .board-ruler {
+      margin-left: calc(var(--label-col) + var(--track-gap));
+      position: relative;
+      height: 24px;
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      background: #f3f4f6;
+      padding: 0.15rem 0.5rem;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      font-size: 9px;
+      color: #64748b;
+      overflow: hidden;
+    }
+    .ruler-ticks-left,
+    .ruler-ticks-right,
+    .ruler-ticks-mid {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      pointer-events: none;
+    }
+    .ruler-ticks-left {
+      left: 0;
+      width: 20%;
+      background-image: linear-gradient(to right, rgba(148,163,184,0.18) 1px, transparent 1px);
+      background-size: 12.5% 100%;
+    }
+    .ruler-ticks-mid {
+      left: 20%;
+      width: 60%;
+      background-image: linear-gradient(to right, rgba(15,118,110,0.12) 1px, transparent 1px);
+      background-size: 4.39% 100%;
+    }
+    .ruler-ticks-right {
+      left: 80%;
+      right: 0;
+      background-image: linear-gradient(to right, rgba(239,68,68,0.12) 1px, transparent 1px);
+      background-size: 8.7% 100%;
+    }
+    .ruler-labels {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    /* vertical split line — GRAY (pre-sync, async) */
+    .async-split {
+      position: absolute;
+      left: var(--sync-x-px);
+      top: 0.5rem;
+      bottom: 0.5rem;
+      width: 1.5px;
+      background: #94a3b8;
+      border-radius: 999px;
+      z-index: 4;
+    }
+    .async-split::before {
+      content: "";
+      position: absolute;
+      left: -2px;
+      right: -2px;
+      top: 0;
+      bottom: 0;
+      border-left: 1.5px dashed rgba(148,163,184,0.5);
+    }
+
+    /* vertical split line — BLUE (sync anchor @4k) */
+    .sync-split {
+      position: absolute;
+      left: var(--sync-x-px);
+      top: 0.5rem;
+      bottom: 0.5rem;
+      width: 2px;
+      background: var(--event-sync);
+      border-radius: 999px;
+      z-index: 5;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.35);
+      animation: lineBreatheSync 5.2s var(--ease-out-expo) infinite;
+      will-change: opacity;
+    }
+
+    /* vertical split line — RED (event trigger @15k, aligned with waveform mutation) */
+    .event-split {
+      position: absolute;
+      left: var(--event-x-px);
+      top: 0.5rem;
+      bottom: 0.5rem;
+      width: 2px;
+      background: var(--event-risk);
+      border-radius: 999px;
+      z-index: 5;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.28);
+      animation: lineBreatheEvent 4s var(--ease-out-expo) infinite;
+      will-change: opacity;
+    }
+
+    /* stage notes */
+    .sync-stage-note {
+      position: absolute;
+      top: 0.15rem;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      border-radius: 999px;
+      padding: 0.1rem 0.4rem;
+      z-index: 6;
+    }
+    .sync-stage-note.blue {
+      color: #115e59;
+      background: rgba(15,118,110,0.08);
+      border: 1px solid rgba(15,118,110,0.2);
+    }
+    .sync-stage-note.red {
+      color: #dc2626;
+      background: rgba(239,68,68,0.08);
+      border: 1px solid rgba(239,68,68,0.2);
+    }
+    .sync-stage-note.gray {
+      color: #64748b;
+      background: rgba(148,163,184,0.08);
+      border: 1px solid rgba(148,163,184,0.2);
+    }
+    .note-async-left {
+      left: calc(var(--sync-x-px) - 75px);
+    }
+    .note-async-right {
+      left: calc(var(--sync-x-px) + 8px);
+    }
+    .note-sync {
+      left: calc(var(--sync-x-px) - 50px);
+    }
+    .note-unified {
+      left: calc(var(--sync-x-px) + 8px);
+    }
+    .note-event {
+      left: calc(var(--event-x-px) - 48px);
+    }
+    .note-post {
+      left: calc(var(--event-x-px) + 8px);
+    }
+
+    /* software node — floating on blue line @4k */
+    .software-node {
+      position: absolute;
+      left: calc(var(--sync-x-px) + 6px);
+      top: 40%;
+      transform: translate(-10%, -50%);
+      width: clamp(148px, 17vw, 180px);
+      border: 1px solid rgba(15, 118, 110, 0.22);
+      border-radius: 0.75rem;
+      background: rgba(255,255,255,0.96);
+      box-shadow:
+        0 10px 36px rgba(24, 24, 27, 0.07),
+        0 0 0 1px rgba(24, 24, 27, 0.04);
+      z-index: 10;
+      padding: 0.3rem;
+      transition: box-shadow 0.35s var(--ease-out-expo), border-color 0.35s var(--ease-out-expo);
+    }
+    .software-node:hover {
+      border-color: rgba(15, 118, 110, 0.35);
+      box-shadow:
+        0 16px 44px rgba(24, 24, 27, 0.09),
+        0 0 0 1px rgba(15, 118, 110, 0.1);
+    }
+    .software-node img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      border-radius: 0.4rem;
+      border: 1px solid rgba(15, 118, 110, 0.12);
+    }
+    .software-node p {
+      font-size: 9px;
+      font-weight: 600;
+      color: #134e4a;
+      margin-top: 0.2rem;
+      text-align: center;
+    }
+
+    /* event scene card — parked at top-right info zone, no longer blocking waveform mutation */
+    .event-node {
+      position: absolute;
+      right: 1rem;
+      left: auto;
+      top: 4.25rem;
+      transform: none;
+      width: clamp(128px, 15vw, 156px);
+      border: 1px solid rgba(220, 38, 38, 0.22);
+      border-radius: 0.75rem;
+      background: rgba(255,255,255,0.96);
+      box-shadow:
+        0 10px 36px rgba(24, 24, 27, 0.07),
+        0 0 0 1px rgba(24, 24, 27, 0.04);
+      z-index: 10;
+      padding: 0.3rem;
+      transition: box-shadow 0.35s var(--ease-out-expo), border-color 0.35s var(--ease-out-expo);
+    }
+    .event-node:hover {
+      border-color: rgba(220, 38, 38, 0.35);
+    }
+    .event-node img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      border-radius: 0.4rem;
+      border: 1px solid rgba(220, 38, 38, 0.15);
+    }
+    .event-node p {
+      font-size: 10px;
+      font-weight: 700;
+      color: #b91c1c;
+      margin-top: 0.2rem;
+      text-align: center;
+    }
+
+    .event-callout-glyph {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 2px;
+      background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.35);
+      flex-shrink: 0;
+    }
+    .event-callout {
+      position: absolute;
+      top: 4.2rem;
+      left: calc(var(--event-x-px) - 118px);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.22rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid rgba(220, 38, 38, 0.2);
+      background: rgba(254, 242, 242, 0.92);
+      color: #991b1b;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      z-index: 9;
+      white-space: nowrap;
+    }
+
+    /* lane rows */
+    .h-lane {
+      margin-top: 0.5rem;
+      display: grid;
+      grid-template-columns: var(--label-col) minmax(0, 1fr);
+      gap: var(--track-gap);
+      align-items: center;
+    }
+    .mod-card {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 0.4rem;
+      align-items: center;
+      border: 1px solid rgba(24, 24, 27, 0.07);
+      background: rgba(255,255,255,0.92);
+      border-radius: 0.6rem;
+      padding: 0.3rem;
+    }
+    .mod-card img {
+      width: 60px;
+      height: 40px;
+      border-radius: 0.35rem;
+      border: 1px solid #cbd5e1;
+      object-fit: cover;
+      background: #fff;
+    }
+    .mod-card .mod-text p:first-child {
+      font-size: 11px;
+      color: #0f172a;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .mod-card .mod-text p:last-child {
+      margin-top: 0.05rem;
+      font-size: 9px;
+      color: #64748b;
+      line-height: 1.3;
+    }
+    .gif-video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 0.75rem;
+      border: 1px solid #cbd5e1;
+      object-fit: cover;
+      background: #fff;
+    }
+    .signal-grid {
+      display: grid;
+      gap: 0.65rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .signal-card {
+      display: grid;
+      grid-template-columns: 62px minmax(0, 1fr);
+      gap: 0.65rem;
+      align-items: center;
+      min-height: 74px;
+      border: 1px solid rgba(24, 24, 27, 0.08);
+      border-radius: 0.85rem;
+      background: linear-gradient(145deg, rgba(255,255,255,0.96), rgba(248,250,252,0.94));
+      padding: 0.42rem;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+    .signal-card img {
+      width: 62px;
+      height: 54px;
+      border-radius: 0.65rem;
+      border: 1px solid #dbeafe;
+      object-fit: cover;
       background: #f8fafc;
     }
-    .section-title { letter-spacing: -0.02em; }
+    .signal-card p:first-child {
+      font-size: 12px;
+      line-height: 1.3;
+      font-weight: 800;
+      color: #0f172a;
+    }
+    .signal-card p:last-child {
+      margin-top: 0.2rem;
+      font-size: 10px;
+      line-height: 1.45;
+      color: #64748b;
+    }
+
+    /* track container */
+    .h-track {
+      position: relative;
+      height: 44px;
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      background:
+        linear-gradient(to right, rgba(100, 116, 139, 0.14) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(100, 116, 139, 0.08) 1px, transparent 1px),
+        #f3f4f6;
+      background-size: 8.33% 100%, 100% 50%, 100% 100%;
+    }
+    .h-track canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* region labels at bottom of board */
+    .region-labels {
+      margin-left: calc(var(--label-col) + var(--track-gap));
+      margin-top: 0.4rem;
+      display: grid;
+      grid-template-columns: 20% 60% 20%;
+      font-size: 9px;
+      color: #64748b;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-align: center;
+    }
+    .region-labels span:first-child { text-align: left; color: #94a3b8; }
+    .region-labels span:nth-child(2) { text-align: center; color: #0f766e; }
+    .region-labels span:last-child { text-align: right; color: #ef4444; }
+
+    /* event tags */
+    .event-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.6rem;
+    }
+    .event-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      border-radius: 0.4rem;
+      padding: 0.3rem 0.5rem;
+      font-size: 10px;
+      font-weight: 600;
+      border: 1px solid #e2e8f0;
+      background: #ffffff;
+      color: #475569;
+    }
+    .event-tag b { color: #0f172a; font-weight: 700; }
+    .event-tag.tag-red b { color: #dc2626; }
+    .event-tag.tag-blue b { color: #0f766e; }
+
+    /* analysis grid */
+    .analysis-grid {
+      display: grid;
+      gap: 0.45rem;
+      margin-top: 0.6rem;
+    }
+    .analysis-row {
+      border: 1px solid rgba(15, 118, 110, 0.14);
+      border-radius: 0.6rem;
+      background: rgba(204, 251, 241, 0.28);
+      padding: 0.45rem 0.6rem;
+      transition: border-color 0.3s var(--ease-out-expo), background 0.3s var(--ease-out-expo);
+    }
+    .analysis-row:hover {
+      border-color: rgba(15, 118, 110, 0.24);
+      background: rgba(204, 251, 241, 0.42);
+    }
+    .analysis-row p:first-child {
+      font-size: 11px;
+      font-weight: 700;
+      color: #134e4a;
+    }
+    .analysis-row p:last-child {
+      font-size: 11px;
+      line-height: 1.5;
+      color: #475569;
+      margin-top: 0.15rem;
+    }
+
+    /* status bar */
+    .timeline-status {
+      margin-left: calc(var(--label-col) + var(--track-gap));
+      margin-top: 0.3rem;
+      font-size: 9px;
+      font-weight: 600;
+      color: #115e59;
+      letter-spacing: 0.06em;
+      border: 1px solid rgba(15, 118, 110, 0.2);
+      background: rgba(204, 251, 241, 0.4);
+      border-radius: 999px;
+      display: inline-flex;
+      padding: 0.12rem 0.5rem;
+    }
+
+    @keyframes lineBreatheSync {
+      0%, 100% { opacity: 0.78; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes lineBreatheEvent {
+      0%, 100% { opacity: 0.72; }
+      50% { opacity: 1; }
+    }
+
+    @media (min-width: 1024px) {
+      .sync-lab { padding: 1.5rem; }
+      .analysis-grid { grid-template-columns: repeat(3, 1fr); }
+      .signal-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+    @media (max-width: 767px) {
+      .sync-quickstrip { grid-template-columns: 1fr; }
+      .signal-grid { grid-template-columns: 1fr; }
+      .h-lane { grid-template-columns: 1fr; }
+      .board-ruler,
+      .region-labels,
+      .timeline-status { margin-left: 0; }
+      .software-node,
+      .event-node {
+        position: relative;
+        left: auto;
+        right: auto;
+        top: auto;
+        transform: none;
+        width: 100%;
+        margin-top: 0.6rem;
+      }
+      .event-callout {
+        position: relative;
+        left: auto;
+        top: auto;
+        display: inline-flex;
+        margin-top: 0.4rem;
+      }
+      .sync-stage-note {
+        position: relative;
+        left: auto !important;
+        display: inline-block;
+        margin-right: 0.3rem;
+      }
+      .region-labels {
+        grid-template-columns: 1fr;
+        gap: 0.2rem;
+        text-align: left !important;
+      }
+      .region-labels span { text-align: left !important; }
+    }
   </style>
 </head>
 <body>
-<div class="min-h-screen bg-slate-50">
-<header class="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur">
+<div class="case-shell min-h-screen">
+<header class="sticky top-0 z-20 border-b border-zinc-200/80 bg-white/80 backdrop-blur-md">
 <div class="mx-auto max-w-7xl px-6 py-4 lg:px-8">
 <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
 <div>
-<p class="text-xs font-semibold uppercase tracking-widest text-blue-700">Portfolio Case Study</p>
-<h1 class="mt-1 text-xl font-bold text-slate-900 md:text-2xl">驾驶模拟人因研究平台搭建与应用</h1>
+<p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-teal-900/90">Portfolio Case Study</p>
+<h1 class="mt-2 text-xl font-semibold text-zinc-900 md:text-[1.65rem] md:leading-snug">驾驶模拟人因研究平台搭建与应用</h1>
 </div>
-<nav class="flex flex-wrap gap-4 text-sm text-slate-600">
-<a class="transition hover:text-blue-700" href="#overview">项目概览</a>
-<a class="transition hover:text-blue-700" href="#modules">核心模块</a>
-<a class="transition hover:text-blue-700" href="#value">项目价值</a>
+<nav class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-zinc-600">
+<a class="relative text-zinc-600 transition-colors duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-teal-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.16,1,0.3,1)] hover:text-zinc-900 hover:after:scale-x-100" href="#overview">项目概览</a>
+<a class="relative text-zinc-600 transition-colors duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-teal-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.16,1,0.3,1)] hover:text-zinc-900 hover:after:scale-x-100" href="#modules">核心模块</a>
+<a class="relative text-zinc-600 transition-colors duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-teal-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.16,1,0.3,1)] hover:text-zinc-900 hover:after:scale-x-100" href="#value">项目价值</a>
 </nav>
 </div>
 </div>
 </header>
-<main class="mx-auto max-w-7xl px-6 py-10 lg:px-8 lg:py-12">
-<section class="mb-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm lg:p-8">
-<p class="text-sm font-semibold text-blue-700">个人信息</p>
+<main class="mx-auto max-w-7xl px-6 py-6 lg:px-8 lg:py-8">
+
+<!-- ========== SECTION 1: Personal Info ========== -->
+<section class="mb-5 rounded-3xl border border-zinc-200/90 bg-white p-6 shadow-[0_1px_2px_rgba(24,24,27,0.04)] ring-1 ring-zinc-950/[0.03] lg:p-8">
+<p class="text-sm font-semibold text-teal-900">个人信息</p>
 <div class="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-<p class="text-xs font-semibold tracking-wide text-blue-700">姓名</p>
-<p class="mt-2 text-sm font-semibold text-slate-900">王杰</p>
+<div class="meta-card rounded-2xl p-4">
+  <p class="text-xs font-semibold tracking-wide text-teal-900">姓名</p>
+  <p class="mt-2 text-sm font-semibold text-slate-900">王杰</p>
 </div>
-<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-<p class="text-xs font-semibold tracking-wide text-blue-700">求职意向</p>
-<p class="mt-2 text-sm font-semibold text-slate-900">人因用户研究实习</p>
+<div class="meta-card rounded-2xl p-4">
+  <p class="text-xs font-semibold tracking-wide text-teal-900">求职意向</p>
+  <p class="mt-2 text-sm font-semibold text-slate-900">人因用户研究</p>
 </div>
-<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-<p class="text-xs font-semibold tracking-wide text-blue-700">手机号</p>
-<p class="mt-2 text-sm font-semibold text-slate-900">13584012372</p>
+<div class="meta-card rounded-2xl p-4">
+  <p class="text-xs font-semibold tracking-wide text-teal-900">手机号</p>
+  <p class="mt-2 text-sm font-semibold text-slate-900">13584012372</p>
 </div>
-<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-<p class="text-xs font-semibold tracking-wide text-blue-700">邮箱</p>
-<p class="mt-2 text-sm font-semibold text-slate-900">242312036@njnu.edu.cn</p>
+<div class="meta-card rounded-2xl p-4">
+  <p class="text-xs font-semibold tracking-wide text-teal-900">邮箱</p>
+  <p class="mt-2 text-sm font-semibold text-slate-900">242312036@njnu.edu.cn</p>
 </div>
 </div>
 </section>
-<section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm lg:p-8" id="overview">
+
+<!-- ========== SECTION 2: Overview ========== -->
+<section class="rounded-3xl border border-zinc-200/90 bg-white p-6 shadow-[0_1px_2px_rgba(24,24,27,0.04)] ring-1 ring-zinc-950/[0.03] lg:p-8" id="overview">
 <div class="grid gap-8 lg:grid-cols-12 lg:items-start">
 <div class="lg:col-span-7">
-<p class="text-sm font-semibold tracking-wider text-blue-700">项目摘要</p>
-<h2 class="section-title mt-3 text-3xl font-extrabold leading-tight text-slate-900 lg:text-[2.5rem]">从 0-1 搭建驾驶模拟研究平台，并完成多模态实验接入与研究支撑</h2>
-<p class="mt-5 max-w-3xl text-[17px] leading-[1.8] text-slate-600">
-围绕驾驶人因研究需求，独立完成从实验场景搭建、多模态设备接入与同步、行为分析支持到成果输出的全流程推进，支撑驾驶模拟实验的稳定运行与研究验证。
-</p>
-<div class="mt-8 flex flex-wrap gap-3">
-<span class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-700">人因研究</span>
-<span class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-700">驾驶模拟</span>
-<span class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-700">多模态实验</span>
-<span class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-700">场景评估</span>
-</div>
+  <p class="text-sm font-semibold tracking-wider text-teal-900">项目摘要</p>
+  <h2 class="section-title mt-3 text-3xl font-semibold leading-[1.15] text-zinc-900 lg:text-[2.35rem]">从 0-1 搭建驾驶模拟研究平台，并完成多模态实验接入与研究支撑</h2>
+  <p class="mt-5 max-w-[65ch] text-[17px] leading-[1.75] text-zinc-600">
+    围绕驾驶人因研究需求，独立完成从实验场景搭建、多模态设备接入与同步、行为分析支持到成果输出的全流程推进，支撑驾驶模拟实验的稳定运行与研究验证。
+  </p>
+  <div class="mt-8 flex flex-wrap gap-3">
+    <span class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-700">人因研究</span>
+    <span class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-700">驾驶模拟</span>
+    <span class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-700">多模态实验</span>
+    <span class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-700">场景评估</span>
+  </div>
 </div>
 <div class="lg:col-span-5">
-<div class="grid gap-4 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-<p class="text-xs font-semibold tracking-wide text-blue-700">项目角色</p>
-<p class="mt-2 text-sm leading-7 text-slate-700">主导平台搭建、多模态接入、研究分析与成果输出</p>
-</div>
-<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-<p class="text-xs font-semibold tracking-wide text-blue-700">研究对象</p>
-<p class="mt-2 text-sm leading-7 text-slate-700">驾驶行为 / 眼动 / 皮电 / 心率等多源实验数据</p>
-</div>
-<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-<p class="text-xs font-semibold tracking-wide text-blue-700">关键贡献</p>
-<ul class="mt-2 space-y-2 text-sm leading-7 text-slate-700">
-<li>0-1 搭建驾驶模拟实验平台</li>
-<li>建立多设备同步采集机制</li>
-<li>支撑分析验证与阶段性成果输出</li>
-</ul>
-</div>
-</div>
+  <div class="grid gap-4 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+    <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+      <p class="text-xs font-semibold tracking-wide text-teal-900">项目角色</p>
+      <p class="mt-2 text-sm leading-7 text-slate-700">主导平台搭建、多模态接入、研究分析与成果输出</p>
+    </div>
+    <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+      <p class="text-xs font-semibold tracking-wide text-teal-900">研究对象</p>
+      <p class="mt-2 text-sm leading-7 text-slate-700">驾驶行为 / 眼动 / 皮电 / 心率等多源实验数据</p>
+    </div>
+    <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+      <p class="text-xs font-semibold tracking-wide text-teal-900">关键贡献</p>
+      <ul class="mt-2 space-y-2 text-sm leading-7 text-slate-700">
+        <li>0-1 搭建驾驶模拟实验平台</li>
+        <li>建立多设备同步采集机制</li>
+        <li>支撑分析验证与阶段性成果输出</li>
+      </ul>
+    </div>
+  </div>
 </div>
 </div>
 </section>
-<section class="mt-8" id="modules">
-<div class="mb-5 flex items-end justify-between gap-4">
-<div>
-<p class="text-sm font-semibold text-blue-700">核心模块</p>
-<h3 class="section-title mt-1 text-2xl font-bold text-slate-900">平台搭建 → 数据接入 → 行为分析 → 成果输出</h3>
+
+<!-- ========== SECTION 3: Core Modules ========== -->
+<section class="mt-5" id="modules">
+<div class="mb-3 flex items-end justify-between gap-4">
+  <div>
+    <p class="text-sm font-semibold text-teal-900">核心模块</p>
+    <h3 class="section-title mt-1 text-2xl font-semibold text-zinc-900">平台搭建 → 数据接入 → 行为分析 → 成果输出</h3>
+  </div>
 </div>
-<p class="hidden text-sm text-slate-500 lg:block"></p>
-</div>
-<div class="grid gap-6 lg:grid-cols-2">
-<article class="flex h-full flex-col rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+<div class="grid gap-3">
+
+<!-- MODULE 01 -->
+<article class="flex h-full flex-col rounded-3xl border border-zinc-200/90 bg-white p-5 shadow-[0_1px_2px_rgba(24,24,27,0.04)] ring-1 ring-zinc-950/[0.03] transition-[box-shadow,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(24,24,27,0.06)]">
 <div class="flex items-center gap-3">
-<span class="text-sm font-semibold text-blue-700">01</span>
-<h4 class="text-lg font-bold text-slate-900">实验场景与平台搭建</h4>
+  <span class="text-sm font-semibold text-teal-900">01</span>
+  <h4 class="text-lg font-bold text-slate-900">实验场景与平台搭建</h4>
 </div>
 <div class="mt-4 space-y-5 text-[15px] leading-relaxed text-slate-700">
-<div>
-<p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-blue-600"></span>目标</p>
-<p class="pl-3.5 text-slate-600">搭建可支撑驾驶模拟研究的实验场景与软硬件运行环境。</p>
+  <div>
+    <p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-teal-700"></span>目标</p>
+    <p class="pl-3.5 text-slate-600">搭建可支撑驾驶模拟研究的实验场景与软硬件运行环境。</p>
+  </div>
+  <div>
+    <p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-teal-700"></span>完成</p>
+    <ul class="space-y-2 pl-3.5 text-slate-600">
+      <li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>基于 Unity 从 0-1 搭建驾驶实验场景，完成道路环境、事件逻辑与实验流程开发。</li>
+      <li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>打通驾驶模拟器、显示系统与实验计算设备，实现软硬件联调与稳定运行。</li>
+      <li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>针对道路、绿化与环境细节进行渲染优化，兼顾画面表现与运行性能，支持较低配置设备完成 90 分钟以上实验任务。</li>
+    </ul>
+  </div>
+  <div class="flex flex-wrap gap-2 pt-2">
+    <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">Unity 场景开发</span>
+    <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">软硬件联调</span>
+    <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">渲染优化</span>
+  </div>
 </div>
-<div>
-<p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-blue-600"></span>完成</p>
-<ul class="space-y-2 pl-3.5 text-slate-600">
-<li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>基于 Unity 从 0-1 搭建驾驶实验场景，完成道路环境、事件逻辑与实验流程开发。</li>
-<li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>打通驾驶模拟器、显示系统与实验计算设备，实现软硬件联调与稳定运行。</li>
-<li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>针对道路、绿化与环境细节进行渲染优化，兼顾画面表现与运行性能，支持较低配置设备完成 90 分钟以上实验任务。</li>
-</ul>
-</div>
-<div class="flex flex-wrap gap-2 pt-2">
-<span class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">Unity 场景开发</span>
-<span class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">软硬件联调</span>
-<span class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">渲染优化</span>
-</div>
-</div>
-<div class="mt-5 grid flex-1 gap-4">
-<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-<p class="mb-4 text-sm font-bold text-slate-900">基于实验目的选择不同驾驶模拟环境</p>
-<div class="grid gap-6 md:grid-cols-2">
-<div class="grid gap-3">
-<img alt="驾驶场景可视化" class="aspect-video w-full rounded-xl border border-slate-200 object-cover bg-white" src="./驾驶场景.png"/>
-<img alt="驾驶平台外部实体展示" class="aspect-video w-full rounded-xl border border-slate-200 object-cover bg-white" src="./驾驶平台外部实体.png"/>
-<p class="mt-1 text-xs font-semibold text-slate-900 text-center">桌面版驾驶模拟实验场景</p>
-</div>
-<div class="space-y-4">
-<div>
-<p class="text-xs font-bold text-blue-700">真实操控与驾驶负荷场景</p>
-<p class="mt-1 text-xs leading-5 text-slate-600"><span class="font-semibold text-slate-800">适配平台：</span>真实模拟器</p>
-<p class="mt-1 text-xs leading-5 text-slate-600">转向、制动、跟车、变道、接管、操作稳定性，以及方向盘、踏板、座椅振动等真实驾驶负荷研究。</p>
-</div>
-<div>
-<p class="text-xs font-bold text-blue-700">座舱交互与产品验证场景</p>
-<p class="mt-1 text-xs leading-5 text-slate-600"><span class="font-semibold text-slate-800">适配平台：</span>真实模拟器</p>
-<p class="mt-1 text-xs leading-5 text-slate-600">HUD、中控、语音、警报、按键/触屏、ADAS提醒等在真实硬件条件下的可用性和落地效果验证。</p>
-</div>
-</div>
-</div>
-</div>
-<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-<div class="grid gap-6 md:grid-cols-2">
-<div class="grid gap-3">
-<img alt="Unity VR驾驶模拟实验场景1" class="aspect-video w-full rounded-xl border border-slate-200 object-cover bg-white" src="./vr1.jpg"/>
-<img alt="Unity VR驾驶模拟实验场景2" class="aspect-video w-full rounded-xl border border-slate-200 object-cover bg-white" src="./vr2.jpg"/>
-<p class="mt-1 text-xs font-semibold text-slate-900 text-center">VR版驾驶模拟实验场景（HTC Vive Pro Eye + Tobii XR）</p>
-</div>
-<div class="space-y-4">
-<div>
-<p class="text-xs font-bold text-blue-700">危险事件与应急反应场景</p>
-<p class="mt-1 text-xs leading-5 text-slate-600"><span class="font-semibold text-slate-800">适配平台：</span>VR模拟器</p>
-<p class="mt-1 text-xs leading-5 text-slate-600">突发行人、鬼探头、前车急刹、恶劣天气、低能见度等高风险事件下的反应时间、避撞行为、注意力分配。</p>
-</div>
-<div>
-<p class="text-xs font-bold text-blue-700">视觉注意与眼动行为场景</p>
-<p class="mt-1 text-xs leading-5 text-slate-600"><span class="font-semibold text-slate-800">适配平台：</span>VR模拟器</p>
-<p class="mt-1 text-xs leading-5 text-slate-600">驾驶员看哪里、看多久、扫视路径、分心检测、界面信息搜索、警示提示是否被看见等研究。</p>
-</div>
-</div>
-</div>
-</div>
+<div class="mt-5 grid gap-4 md:grid-cols-3">
+  <!-- Desktop Simulator -->
+  <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+    <img alt="桌面版驾驶模拟实验场景" class="aspect-video w-full rounded-xl border border-slate-200 object-cover bg-white" src="./驾驶场景.png"/>
+    <p class="mt-3 text-xs font-bold text-slate-900">桌面版驾驶模拟</p>
+    <p class="mt-1 text-xs leading-5 text-slate-500">真实操控负荷 / 座舱交互验证 / 硬件在环</p>
+  </div>
+  <!-- VR Simulator -->
+  <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+    <img alt="VR版驾驶模拟实验场景" class="aspect-video w-full rounded-xl border border-slate-200 object-cover bg-white" src="./vr1.jpg"/>
+    <p class="mt-3 text-xs font-bold text-slate-900">VR版驾驶模拟</p>
+    <p class="mt-1 text-xs leading-5 text-slate-500">危险事件应急 / 视觉注意 / 眼动追踪</p>
+  </div>
+  <!-- AR-HUD Demo -->
+  <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+    <video aria-label="AR-HUD 驾驶提示动态演示" autoplay class="gif-video" loop muted playsinline preload="metadata">
+      <source src="./ar-hud-demo-h264.mp4" type="video/mp4"/>
+    </video>
+    <p class="mt-3 text-xs font-bold text-slate-900">AR-HUD 驾驶提示</p>
+    <p class="mt-1 text-xs leading-5 text-slate-500">增强现实导航 / 风险提示 / 座舱信息呈现</p>
+  </div>
 </div>
 </article>
-<article class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+
+<!-- ========== MODULE 02: MULTI-MODAL SYNC — REDESIGNED ========== -->
+<article class="rounded-3xl border border-zinc-200/90 bg-white p-5 shadow-[0_1px_2px_rgba(24,24,27,0.04)] ring-1 ring-zinc-950/[0.03] transition-[box-shadow,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(24,24,27,0.06)]">
 <div class="flex items-center gap-3">
-<span class="text-sm font-semibold text-blue-700">02</span>
-<h4 class="text-lg font-bold text-slate-900">多模态数据接入与同步</h4>
+  <span class="text-sm font-semibold text-teal-900">02</span>
+  <h4 class="text-lg font-bold text-slate-900">多模态数据接入与毫秒级同步</h4>
 </div>
 <div class="mt-4 space-y-5 text-[15px] leading-relaxed text-slate-700">
-<div>
-<p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-blue-600"></span>目标</p>
-<p class="pl-3.5 text-slate-600">建立驾驶任务、眼动、生理信号与视频流的统一采集、保存与分析基础。</p>
+  <div>
+    <p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-teal-700"></span>目标</p>
+    <p class="pl-3.5 text-slate-600">将驾驶行为、眼动与生理信号映射到同一时间基准，实现跨设备毫秒级时间戳对齐，并支撑事件级行为分析。</p>
+  </div>
+  <div>
+    <p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-teal-700"></span>完成</p>
+    <ul class="space-y-2 pl-3.5 text-slate-600">
+      <li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>构建统一时钟与事件总线，将 ECG、EDA、眼动、驾驶任务日志按统一时间轴对齐，支持异步采样率融合。</li>
+      <li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>在采集端完成事件触发打标（如突然风险、接管、警报提示），并将事件窗口回写到多模态数据切片。</li>
+      <li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>形成"时间戳对齐 → 事件窗口抽取 → 指标聚合"的分析闭环，显著降低人工对帧与手工标注成本。</li>
+    </ul>
+  </div>
+  <div class="flex flex-wrap gap-2 pt-2">
+    <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">毫秒级对齐</span>
+    <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">事件总线</span>
+    <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">窗口化分析</span>
+  </div>
 </div>
-<div>
-<p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-blue-600"></span>完成</p>
-<ul class="space-y-2 pl-3.5 text-slate-600">
-<li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>将驾驶任务、眼动、心率及心率变异性、皮肤电等不同采样率模态数据汇集到统一软件中进行同步采集。</li>
-<li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>支持统一保存、统一打标记与事后分析，同时集成视频直播及眼动映射视频保存。</li>
-<li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>沉淀为可直接用于语义分割及机器学习的数据基础，减少后续人工整理与手动标记成本。</li>
-</ul>
+
+<div class="signal-grid mt-5">
+  <div class="signal-card">
+    <img alt="眼动追踪数据接入" src="./眼动仪.webp"/>
+    <div>
+      <p>眼动追踪</p>
+      <p>视线轨迹 · 注视点 · AOI 分析</p>
+    </div>
+  </div>
+  <div class="signal-card">
+    <img alt="心电与心率数据接入" src="./心电 ecg.png"/>
+    <div>
+      <p>心电 / 心率</p>
+      <p>HR · HRV · 疲劳与负荷变化</p>
+    </div>
+  </div>
+  <div class="signal-card">
+    <img alt="驾驶行为数据接入" src="./驾驶情景.png"/>
+    <div>
+      <p>驾驶行为指标</p>
+      <p>车速 · 车道偏移 · 操作反应</p>
+    </div>
+  </div>
+  <div class="signal-card">
+    <img alt="皮肤电数据接入" src="./eda 采集.png"/>
+    <div>
+      <p>皮肤电</p>
+      <p>EDA · 唤醒水平 · 风险刺激反应</p>
+    </div>
+  </div>
 </div>
-<div class="flex flex-wrap gap-2 pt-2">
-<span class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">多设备接入</span>
-<span class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">统一保存</span>
-<span class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">自动打标</span>
-</div>
-</div>
-<div class="mt-5 rounded-3xl border border-slate-200 bg-slate-50 p-4">
-<div class="grid gap-3 lg:grid-cols-3">
-<div class="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
-<img alt="驾驶任务场景" class="h-20 w-full rounded-xl border border-slate-200 object-cover" src="./驾驶情景.png"/>
-<p class="mt-3 text-xs font-semibold text-slate-900">驾驶场景</p>
-<p class="mt-1 text-xs leading-5 text-slate-600">驾驶行为、事件触发与场景状态输入</p>
-</div>
-<div class="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
-<img alt="眼动仪设备" class="h-20 w-full rounded-xl border border-slate-200 object-contain bg-white" src="./眼动仪.webp"/>
-<p class="mt-3 text-xs font-semibold text-slate-900">眼动设备</p>
-<p class="mt-1 text-xs leading-5 text-slate-600">注视点、扫视轨迹与热点分布数据</p>
-</div>
-<div class="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
-<img alt="心率及心率变异性设备" class="h-20 w-full rounded-xl border border-slate-200 object-contain bg-white" src="./心电 ecg.png"/>
-<p class="mt-3 text-xs font-semibold text-slate-900">心率/HRV/皮电</p>
-<p class="mt-1 text-xs leading-5 text-slate-600">心率、HRV 与皮电等生理节律指标接入</p>
-</div>
-</div>
-<div class="py-3 text-center text-blue-700">
-<div class="text-xs font-semibold tracking-wide">多模态设备统一同步保存</div>
-<div class="mt-2 flex items-center justify-center text-2xl leading-none">↓</div>
-</div>
-<div class="mx-auto max-w-4xl rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
-<img alt="多模态同步采集软件界面" class="aspect-[16/9] w-full rounded-2xl border border-slate-200 object-cover bg-white" src="./多模态同步软件.png"/>
-<p class="mt-3 text-xs font-semibold text-slate-900">多模态同步采集软件</p>
-<p class="mt-1 text-xs leading-5 text-slate-600">统一汇集多源设备数据并完成同步采集与保存</p>
-</div>
+
+<!-- ===== SYNC LAB: DARK VISUALIZATION ===== -->
+<div class="sync-lab mt-5">
+  <div class="sync-header">
+    <p class="title mono">MULTI-MODAL SYNC TIMELINE</p>
+    <div class="flex flex-wrap gap-2">
+      <span class="sync-chip mono">NTP</span>
+      <span class="sync-chip mono">ms</span>
+      <span class="sync-chip mono">E_brake</span>
+    </div>
+  </div>
+
+  <div class="sync-canvas">
+    <div class="sync-board" id="syncBoard">
+      <!-- Gray dashed line (pre-sync async region boundary @4k) -->
+      <div class="async-split"></div>
+      <!-- Blue vertical line (sync anchor @4k) -->
+      <div class="sync-split"></div>
+      <!-- Red vertical line (event trigger @15k) -->
+      <div class="event-split"></div>
+
+      <!-- Stage notes -->
+      <span class="sync-stage-note gray note-async-left mono">ASYNC</span>
+      <span class="sync-stage-note blue note-sync mono">@4k</span>
+      <span class="sync-stage-note blue note-unified mono">LOCKED</span>
+      <span class="sync-stage-note red note-event mono">@15k</span>
+      <span class="sync-stage-note red note-post mono">E_brake</span>
+      <span class="event-callout mono"><span class="event-callout-glyph" aria-hidden="true"></span>EVENT WINDOW @15k</span>
+
+      <!-- Software node — floating on BLUE line -->
+      <div class="software-node">
+        <img alt="多模态同步采集软件界面" src="./多模态同步软件.png"/>
+        <p>Sync Software · 时间偏移校正 + 统一时钟</p>
+      </div>
+
+      <!-- Event scene node — floating on RED line -->
+      <div class="event-node">
+        <img alt="应急事件触发场景" src="./应急事件.png"/>
+        <p>E_brake · 应急制动场景</p>
+      </div>
+
+      <!-- Board header -->
+      <div class="board-head">
+        <p class="board-title mono">GLOBAL TIME AXIS — ALL STREAMS LOCKED TO SINGLE CLOCK</p>
+        <span class="board-meta mono">SYNC @4k · EVENT @15k</span>
+      </div>
+
+      <!-- Ruler -->
+      <div class="board-ruler mono">
+        <div class="ruler-ticks-left"></div>
+        <div class="ruler-ticks-mid"></div>
+        <div class="ruler-ticks-right"></div>
+        <div class="ruler-labels">
+          <span>0</span><span>2k</span><span>4k</span><span>6k</span><span>8k</span><span>10k</span><span>12k</span><span>14k</span><span>16k</span><span>18k</span><span>20k ms</span>
+        </div>
+      </div>
+
+      <div class="timeline-status mono">ASYNC → SYNC @4k → EVENT @15k</div>
+
+      <!-- === LANE 1: Eye Tracking === -->
+      <div class="h-lane">
+        <div class="mod-card">
+          <img alt="眼动仪" src="./眼动仪.webp"/>
+          <div class="mod-text">
+            <p>眼动 / Tobii Pro、Pupil Core</p>
+            <p class="mono">50 Hz · I-VT 分析</p>
+          </div>
+        </div>
+        <div class="h-track">
+          <canvas id="waveEye" data-type="square" data-color="#2ca02c"></canvas>
+        </div>
+      </div>
+
+      <!-- === LANE 2: ECG === -->
+      <div class="h-lane">
+        <div class="mod-card">
+          <img alt="心率" src="./心电 ecg.png"/>
+          <div class="mod-text">
+            <p>心率 ECG / HRV</p>
+            <p class="mono">1000 Hz · PQRST</p>
+          </div>
+        </div>
+        <div class="h-track">
+          <canvas id="waveECG" data-type="ecg" data-color="#1f77b4"></canvas>
+        </div>
+      </div>
+
+      <!-- === LANE 3: Driving Behavior === -->
+      <div class="h-lane">
+        <div class="mod-card">
+          <img alt="驾驶行为" src="./驾驶情景.png"/>
+          <div class="mod-text">
+            <p>驾驶行为指标</p>
+            <p class="mono">Event Log · 方波</p>
+          </div>
+        </div>
+        <div class="h-track">
+          <canvas id="waveDrive" data-type="square" data-color="#d62728"></canvas>
+        </div>
+      </div>
+
+      <!-- === LANE 4: EDA === -->
+      <div class="h-lane">
+        <div class="mod-card">
+          <img alt="皮肤电" src="./eda 采集.png"/>
+          <div class="mod-text">
+            <p>皮肤电 EDA</p>
+            <p class="mono">1000 Hz · SCR</p>
+          </div>
+        </div>
+        <div class="h-track">
+          <canvas id="waveEDA" data-type="eda" data-color="#ff7f0e"></canvas>
+        </div>
+      </div>
+
+      <!-- Region labels -->
+      <div class="region-labels mono">
+        <span>← 异步采集 · 独立时钟</span>
+        <span>统一时钟 · 同步采集</span>
+        <span>事件触发 →</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Analysis -->
+  <div class="analysis-grid">
+    <div class="analysis-row">
+      <p>事件窗口提取</p>
+      <p>-1500ms ~ +2500ms 自动切片</p>
+    </div>
+    <div class="analysis-row">
+      <p>毫秒级时间戳映射</p>
+      <p>异步采样率 → 统一毫秒轴</p>
+    </div>
+    <div class="analysis-row">
+      <p>事件驱动统计</p>
+      <p>前后生理变化差异验证</p>
+    </div>
+  </div>
 </div>
 </article>
-<article class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+
+<!-- MODULE 03 -->
+<article class="rounded-3xl border border-zinc-200/90 bg-white p-5 shadow-[0_1px_2px_rgba(24,24,27,0.04)] ring-1 ring-zinc-950/[0.03] transition-[box-shadow,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(24,24,27,0.06)]">
 <div class="flex items-center gap-3">
-<span class="text-sm font-semibold text-blue-700">03</span>
-<h4 class="text-lg font-bold text-slate-900">行为分析与研究支持</h4>
+  <span class="text-sm font-semibold text-teal-900">03</span>
+  <h4 class="text-lg font-bold text-slate-900">行为分析与研究支持</h4>
 </div>
 <div class="mt-4 space-y-5 text-[15px] leading-relaxed text-slate-700">
-<div>
-<p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-blue-600"></span>目标</p>
-<p class="pl-3.5 text-slate-600">围绕关键驾驶指标，结合眼动、心率、心率变异性及皮肤电等多模态数据，开展核心指标的对比统计分析与结果解释，提升驾驶行为研究的可解释性。</p>
-</div>
-<div>
-<p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-blue-600"></span>完成</p>
-<ul class="space-y-2 pl-3.5 text-slate-600">
-<li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>围绕速度控制、车道保持、操作反应等关键驾驶指标，结合眼动、心率、心率变异性及皮肤电等多模态数据开展联合分析。</li>
-<li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>基于 Python 数据分析库进行核心指标的对比统计，并结合方差分析、T 检验等方法对实验结果进行显著性验证。</li>
-<li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>结合驾驶行为表现与生理心理指标变化，对实验结果进行解释，为课题假设验证与研究结论形成提供支持。</li>
-</ul>
-</div>
-<div class="flex flex-wrap gap-2 pt-2">
-<span class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">行为分析</span>
-<span class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">多源关联</span>
-<span class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">研究支持</span>
-</div>
+  <div>
+    <p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-teal-700"></span>目标</p>
+    <p class="pl-3.5 text-slate-600">围绕关键驾驶指标，结合眼动、心率、心率变异性及皮肤电等多模态数据，开展核心指标的对比统计分析与结果解释，提升驾驶行为研究的可解释性。</p>
+  </div>
+  <div>
+    <p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-teal-700"></span>完成</p>
+    <ul class="space-y-2 pl-3.5 text-slate-600">
+      <li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>围绕速度控制、车道保持、操作反应等关键驾驶指标，结合眼动、心率、心率变异性及皮肤电等多模态数据开展联合分析。</li>
+      <li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>基于 Python 数据分析库进行核心指标的对比统计，并结合方差分析、T 检验等方法对实验结果进行显著性验证。</li>
+      <li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>结合驾驶行为表现与生理心理指标变化，对实验结果进行解释，为课题假设验证与研究结论形成提供支持。</li>
+    </ul>
+  </div>
+  <div class="flex flex-wrap gap-2 pt-2">
+    <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">行为分析</span>
+    <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">多源关联</span>
+    <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">研究支持</span>
+  </div>
 </div>
 <div class="mt-5 grid gap-4 sm:grid-cols-2">
-<div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
-<img alt="眼动蜂窝图" class="aspect-video w-full rounded-2xl border border-slate-200 object-cover bg-white" src="./眼动蜂窝图.png"/>
-<p class="mt-3 text-xs font-semibold text-slate-900">眼动蜂窝图</p>
-</div>
-<div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
-<img alt="眼动热力图" class="aspect-video w-full rounded-2xl border border-slate-200 object-cover bg-white" src="./眼动热力图.png"/>
-<p class="mt-3 text-xs font-semibold text-slate-900">眼动热力图</p>
-</div>
+  <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+    <video aria-label="理想 HUD 眼动实验动态演示" autoplay class="gif-video rounded-2xl" loop muted playsinline preload="metadata">
+      <source src="./li-hud-eye-tracking.mp4" type="video/mp4"/>
+    </video>
+    <p class="mt-3 text-xs font-semibold text-slate-900">理想 HUD 眼动</p>
+  </div>
+  <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+    <img alt="眼动热力图" class="aspect-video w-full rounded-2xl border border-slate-200 object-cover bg-white" src="./眼动热力图.png"/>
+    <p class="mt-3 text-xs font-semibold text-slate-900">眼动热力图</p>
+  </div>
 </div>
 </article>
-<article class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+
+<!-- MODULE 04 -->
+<article class="rounded-3xl border border-zinc-200/90 bg-white p-5 shadow-[0_1px_2px_rgba(24,24,27,0.04)] ring-1 ring-zinc-950/[0.03] transition-[box-shadow,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(24,24,27,0.06)]">
 <div class="flex items-center gap-3">
-<span class="text-sm font-semibold text-blue-700">04</span>
-<h4 class="text-lg font-bold text-slate-900">可视化汇报与成果输出</h4>
+  <span class="text-sm font-semibold text-teal-900">04</span>
+  <h4 class="text-lg font-bold text-slate-900">可视化汇报与成果输出</h4>
 </div>
-<div class="mt-4 space-y-5 text-[15px] leading-relaxed text-slate-700">
-<div>
-<p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-blue-600"></span>目标</p>
-<p class="pl-3.5 text-slate-600">完成研究成果的整理、可视化表达与会议汇报输出，支撑课题交流与研究传播。</p>
-</div>
-<div>
-<p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-blue-600"></span>完成</p>
-<ul class="space-y-2 pl-3.5 text-slate-600">
-<li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>将驾驶行为指标、眼动结果及生理数据分析结论进行整合，提炼形成可展示的核心研究发现。</li>
-<li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>围绕实验背景、研究方法、关键结果与结论，制作汇报页面、展示图表及会议汇报材料。</li>
-<li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>针对高速公路绿化隔离带对驾驶员警惕性影响这一研究主题，完成成果梳理与对外交流表达。</li>
-</ul>
-</div>
-<div>
-<p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-blue-600"></span>成果</p>
-<p class="pl-3.5 text-slate-600">相关成果已在“人因工程与智能系统交互国际会议”上完成汇报，并获得同行沟通交流与反馈。</p>
-</div>
-<div class="flex flex-wrap gap-2 pt-2">
-<span class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">结果可视化</span>
-<span class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">汇报表达</span>
-<span class="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">成果输出</span>
-</div>
-</div>
-<div class="mt-5 grid gap-4 sm:grid-cols-2">
-<div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
-<img alt="驾驶模拟实验场景1" class="aspect-video w-full rounded-2xl border border-slate-200 object-cover" src="./场景 1.jpg"/>
-<p class="mt-3 text-xs font-semibold text-slate-900">会议现场</p>
-</div>
-<div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
-<img alt="驾驶模拟实验展示场景2" class="aspect-video w-full rounded-2xl border border-slate-200 object-cover" src="./场景 2.jpg"/>
-<p class="mt-3 text-xs font-semibold text-slate-900">会议现场</p>
-</div>
+<div class="mt-4 grid gap-6 lg:grid-cols-2 lg:items-start">
+  <div>
+    <div class="space-y-5 text-[15px] leading-relaxed text-slate-700">
+      <div>
+        <p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-teal-700"></span>成果</p>
+        <p class="pl-3.5 text-slate-600">相关成果已在<span class="font-bold text-teal-800">人因工程与智能系统交互国际会议</span>上完成汇报，并获得同行沟通交流与反馈。</p>
+      </div>
+      <div>
+        <p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-teal-700"></span>目标</p>
+        <p class="pl-3.5 text-slate-600">完成研究成果的整理、可视化表达与会议汇报输出，支撑课题交流与研究传播。</p>
+      </div>
+      <div>
+        <p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-teal-700"></span>完成</p>
+        <ul class="space-y-2 pl-3.5 text-slate-600">
+          <li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>将驾驶行为指标、眼动结果及生理数据分析结论进行整合，提炼形成可展示的核心研究发现。</li>
+          <li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>围绕实验背景、研究方法、关键结果与结论，制作汇报页面、展示图表及会议汇报材料。</li>
+          <li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>针对高速公路绿化隔离带对驾驶员警惕性影响这一研究主题，完成成果梳理与对外交流表达。</li>
+        </ul>
+      </div>
+      <div class="flex flex-wrap gap-2 pt-2">
+        <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">结果可视化</span>
+        <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">汇报表达</span>
+        <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">成果输出</span>
+      </div>
+    </div>
+    <div class="mt-5 grid gap-4 sm:grid-cols-2">
+      <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+        <img alt="会议现场1" class="aspect-video w-full rounded-2xl border border-slate-200 object-cover" src="./场景 1.jpg"/>
+        <p class="mt-3 text-xs font-semibold text-slate-900">会议现场</p>
+      </div>
+      <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+        <img alt="会议现场2" class="aspect-video w-full rounded-2xl border border-slate-200 object-cover" src="./场景 2.jpg"/>
+        <p class="mt-3 text-xs font-semibold text-slate-900">会议现场</p>
+      </div>
+    </div>
+  </div>
+  <div class="lg:border-l lg:border-slate-200 lg:pl-6">
+    <div class="space-y-5 text-[15px] leading-relaxed text-slate-700">
+      <div>
+        <p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-teal-700"></span>成果</p>
+        <p class="pl-3.5 text-slate-600">研究《中央绿化隔离带对高速驾驶警觉度的影响：基于注视熵的眼动证据》于<span class="font-bold text-teal-800">中国心理学会眼动心理学术年会</span>完成口头汇报。</p>
+      </div>
+      <div>
+        <p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-teal-700"></span>目标</p>
+        <p class="pl-3.5 text-slate-600">总结中央绿化隔离带对高速驾驶警觉度的影响，基于注视熵等眼动指标形成研究结论并完成学术交流。</p>
+      </div>
+      <div>
+        <p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-teal-700"></span>关键结果</p>
+        <p class="pl-3.5 text-slate-600">绿化隔离带条件下，驾驶员的静态注视熵与动态注视熵均更高，表现出更广泛、灵活的视觉搜索模式，提示其在长时高速驾驶过程中维持了更高水平的驾驶警觉度。</p>
+      </div>
+      <div class="flex flex-wrap gap-2 pt-2">
+        <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">结果可视化</span>
+        <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">汇报表达</span>
+        <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">成果输出</span>
+      </div>
+    </div>
+    <div class="mt-5 grid gap-4 sm:grid-cols-2">
+      <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+        <img alt="注视熵眼动可视化机制" class="aspect-video w-full rounded-2xl border border-slate-200 object-cover bg-white" loading="lazy" src="./fig4-gaze-mechanism.gif"/>
+        <p class="mt-3 text-xs font-semibold text-slate-900">注视熵眼动可视化机制</p>
+      </div>
+      <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+        <img alt="2026 眼动心理研究专委会学术年会汇报现场" class="aspect-video w-full rounded-2xl border border-slate-200 object-cover" loading="lazy" src="./conference-presentation-guiyang-2026.jpg"/>
+        <p class="mt-3 text-xs font-semibold text-slate-900">学术年会汇报现场</p>
+      </div>
+    </div>
+  </div>
 </div>
 </article>
 </div>
 </section>
-<section class="mt-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm lg:p-8" id="value">
+
+<!-- ========== SECTION 5: Value ========== -->
+<section class="mt-5 rounded-3xl border border-zinc-200/90 bg-white p-6 shadow-[0_1px_2px_rgba(24,24,27,0.04)] ring-1 ring-zinc-950/[0.03] lg:p-8" id="value">
 <div class="grid gap-8 lg:grid-cols-12 lg:items-start">
 <div class="lg:col-span-4">
-<p class="text-sm font-semibold text-blue-700">项目产出与价值</p>
-<h3 class="section-title mt-2 text-2xl font-bold text-slate-900">沉淀为可复用的人因研究基础能力</h3>
-<p class="mt-4 text-sm leading-8 text-slate-700">
-              项目不仅完成单次课题支持，更沉淀出一套可运行、可同步、可分析、可展示的驾驶人因研究基础能力，可持续支撑后续研究验证与展示交流。
-            </p>
+  <p class="text-sm font-semibold text-teal-900">项目产出与价值</p>
+  <h3 class="section-title mt-2 text-2xl font-bold text-slate-900">沉淀为可复用的人因研究基础能力</h3>
+  <p class="mt-4 text-sm leading-8 text-slate-700">
+    项目不仅完成单次课题支持，更沉淀出一套可运行、可同步、可分析、可展示的驾驶人因研究基础能力，可持续支撑后续研究验证与展示交流。
+  </p>
 </div>
 <div class="grid gap-4 sm:grid-cols-3 lg:col-span-8">
-<div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-<p class="text-sm font-semibold text-slate-900">01 可运行实验平台</p>
-<p class="mt-2 text-sm leading-7 text-slate-700">支持驾驶场景搭建、事件触发与长时稳定实验运行。</p>
-</div>
-<div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-<p class="text-sm font-semibold text-slate-900">02 可同步采集机制</p>
-<p class="mt-2 text-sm leading-7 text-slate-700">完成驾驶行为、眼动、皮电、心率等多设备数据接入与时间对齐。</p>
-</div>
-<div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-<p class="text-sm font-semibold text-slate-900">03 可复用研究输出</p>
-<p class="mt-2 text-sm leading-7 text-slate-700">支撑课题分析验证、阶段性汇报及对内外交流展示。</p>
-</div>
+  <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+    <p class="text-sm font-semibold text-slate-900">01 可运行实验平台</p>
+    <p class="mt-2 text-sm leading-7 text-slate-700">支持驾驶场景搭建、事件触发与长时稳定实验运行。</p>
+  </div>
+  <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+    <p class="text-sm font-semibold text-slate-900">02 可同步采集机制</p>
+    <p class="mt-2 text-sm leading-7 text-slate-700">完成驾驶行为、眼动、皮电、心率等多设备数据接入与时间对齐。</p>
+  </div>
+  <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+    <p class="text-sm font-semibold text-slate-900">03 可复用研究输出</p>
+    <p class="mt-2 text-sm leading-7 text-slate-700">支撑课题分析验证、阶段性汇报及对内外交流展示。</p>
+  </div>
 </div>
 </div>
 </section>
+
 </main>
 </div>
+
+<script>
+// ========================================================
+// Waveform Renderer — Canvas-based, real signal morphology
+// ========================================================
+(function() {
+  const SYNC_POS = 0.2;   // 20% = 4k blue sync line
+  const EVENT_POS = 0.75; // 75% = 15k red event line (aligned with waveform mutation node)
+
+  function initCanvas(id) {
+    const canvas = document.getElementById(id);
+    if (!canvas) return null;
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    return { canvas, ctx, w: rect.width, h: rect.height };
+  }
+
+  function layoutTimelineMarkers() {
+    const board = document.getElementById('syncBoard');
+    if (!board) return;
+
+    const ruler = board.querySelector('.board-ruler');
+    const rulerLabels = board.querySelector('.ruler-labels');
+    if (!ruler || !rulerLabels) return;
+
+    const boardRect = board.getBoundingClientRect();
+    const scaleRect = rulerLabels.getBoundingClientRect();
+
+    const scaleStart = scaleRect.left - boardRect.left;
+    const scaleWidth = scaleRect.width;
+
+    const syncX = scaleStart + scaleWidth * SYNC_POS;
+    const eventX = scaleStart + scaleWidth * EVENT_POS;
+
+    board.style.setProperty('--sync-x-px', `${syncX}px`);
+    board.style.setProperty('--event-x-px', `${eventX}px`);
+  }
+
+  // Subtle midline only (vertical reference lines handled by CSS .sync-split / .event-split)
+  function drawRefLines(ctx, w, h) {
+    // Midline baseline
+    ctx.strokeStyle = 'rgba(148,163,184,0.05)';
+    ctx.setLineDash([2, 4]);
+    ctx.beginPath(); ctx.moveTo(0, h/2); ctx.lineTo(w, h/2); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // ---- ECG: Real PQRST waveform ----
+  // Resting: ~70bpm, after event: ~130bpm (tachycardia)
+  function drawECG(ctx, w, h) {
+    const mid = h / 2;
+    const amp = h * 0.35;
+    const blueX = w * SYNC_POS;
+    const redX = w * EVENT_POS;
+
+    ctx.strokeStyle = '#1f77b4';
+    ctx.lineWidth = 1.3;
+    ctx.beginPath();
+    ctx.moveTo(0, mid);
+
+    // Generate PQRST complex at given x position
+    function pqrst(cx, scale, yBase) {
+      const s = scale;
+      const bw = 14 * s;
+      ctx.lineTo(cx - bw * 0.4, yBase);
+      ctx.quadraticCurveTo(cx - bw * 0.3, yBase - amp * 0.15 * s, cx - bw * 0.2, yBase);
+      ctx.lineTo(cx - bw * 0.12, yBase);
+      ctx.lineTo(cx - bw * 0.06, yBase + amp * 0.08 * s);
+      ctx.lineTo(cx, yBase - amp * 0.85 * s);
+      ctx.lineTo(cx + bw * 0.06, yBase + amp * 0.15 * s);
+      ctx.lineTo(cx + bw * 0.18, yBase + amp * 0.02 * s);
+      ctx.quadraticCurveTo(cx + bw * 0.3, yBase - amp * 0.25 * s, cx + bw * 0.45, yBase);
+    }
+
+    // Region 1: Before sync (0→4k) — sparse, slightly irregular, GRAY (not synced)
+    ctx.save();
+    ctx.strokeStyle = '#94a3b8';
+    ctx.lineWidth = 1.3;
+    ctx.beginPath();
+    ctx.moveTo(0, mid);
+
+    const sparseSpacing = [55, 62, 50, 66, 52, 60, 48, 58];
+    let x = 4;
+    for (let i = 0; i < sparseSpacing.length && x < blueX - 8; i++) {
+      const cx = x + sparseSpacing[i] / 2;
+      const noise = Math.sin(i * 1.7) * 1.2;
+      pqrst(cx, 0.75, mid + noise);
+      x += sparseSpacing[i];
+    }
+    ctx.lineTo(blueX, mid + 0.5);
+    ctx.stroke();
+    ctx.restore();
+
+    // Region 2: After sync, before event (4k→15k) — aligned, regular 70bpm
+    ctx.strokeStyle = '#1f77b4';
+    ctx.lineWidth = 1.3;
+    ctx.beginPath();
+    ctx.moveTo(blueX, mid + 0.5);
+    const region2W = redX - blueX;
+    const regularBeatW = region2W / 10;
+    x = blueX + 6;
+    for (let i = 0; i < 10; i++) {
+      const cx = x + regularBeatW / 2;
+      pqrst(cx, 0.85, mid);
+      x += regularBeatW;
+    }
+    ctx.lineTo(redX, mid);
+
+    // Region 3: After event (15k→20k) — TACHYCARDIA, very dense
+    const region3W = w - redX;
+    const denseBeatW = region3W / 16;
+    x = redX + 3;
+    for (let i = 0; i < 16; i++) {
+      const cx = x + denseBeatW / 2;
+      const stressAmp = 1.0 + Math.min(i * 0.04, 0.3);
+      pqrst(cx, 0.65 * stressAmp, mid - i * 0.12);
+      x += denseBeatW;
+    }
+    ctx.lineTo(w, mid - 2);
+
+    ctx.stroke();
+  }
+
+  // ---- EDA: Real tonic + phasic SCR ----
+  function drawEDA(ctx, w, h) {
+    const mid = h * 0.55;
+    const amp = h * 0.3;
+    const blueX = w * SYNC_POS;
+    const redX = w * EVENT_POS;
+
+    ctx.strokeStyle = '#ff7f0e';
+    ctx.lineWidth = 1.3;
+    ctx.beginPath();
+    ctx.moveTo(0, mid);
+
+    // Region 1: Before sync — tonic with wander, GRAY (not synced)
+    ctx.save();
+    ctx.strokeStyle = '#94a3b8';
+    ctx.lineWidth = 1.3;
+    ctx.beginPath();
+    ctx.moveTo(0, mid);
+
+    for (let x = 0; x < blueX; x += 2) {
+      const noise = Math.sin(x * 0.05) * 1.8 + Math.sin(x * 0.12) * 0.9;
+      ctx.lineTo(x, mid + noise);
+    }
+    ctx.stroke();
+    ctx.restore();
+
+    // Region 2: After sync, before event — cleaner tonic, slight drift
+    ctx.strokeStyle = '#ff7f0e';
+    ctx.lineWidth = 1.3;
+    ctx.beginPath();
+    ctx.moveTo(blueX, mid);
+    for (let x = blueX; x < redX; x += 2) {
+      const t = (x - blueX) / (redX - blueX);
+      const noise = Math.sin(x * 0.04) * 0.6;
+      ctx.lineTo(x, mid + 1 - t * 1.2 + noise);
+    }
+
+    // Region 3: After event — Large SCR peaks
+    const regionW = w - redX;
+    ctx.lineTo(redX, mid + 0.5);
+    ctx.lineTo(redX + regionW * 0.05, mid + 0.5);
+    ctx.quadraticCurveTo(redX + regionW * 0.08, mid - amp * 0.7, redX + regionW * 0.12, mid - amp * 1.1);
+    ctx.quadraticCurveTo(redX + regionW * 0.15, mid - amp * 1.15, redX + regionW * 0.18, mid - amp * 1.0);
+    ctx.quadraticCurveTo(redX + regionW * 0.25, mid - amp * 0.4, redX + regionW * 0.35, mid - amp * 0.1);
+    ctx.lineTo(redX + regionW * 0.38, mid - amp * 0.05);
+
+    ctx.quadraticCurveTo(redX + regionW * 0.42, mid - amp * 0.5, redX + regionW * 0.48, mid - amp * 0.75);
+    ctx.quadraticCurveTo(redX + regionW * 0.55, mid - amp * 0.6, redX + regionW * 0.65, mid - amp * 0.15);
+    ctx.lineTo(redX + regionW * 0.7, mid - amp * 0.08);
+
+    ctx.quadraticCurveTo(redX + regionW * 0.74, mid - amp * 0.3, redX + regionW * 0.78, mid - amp * 0.45);
+    ctx.quadraticCurveTo(redX + regionW * 0.85, mid - amp * 0.25, redX + regionW * 0.92, mid - amp * 0.05);
+    ctx.lineTo(w, mid - amp * 0.02);
+
+    ctx.stroke();
+
+    // Subtle fill under the SCR peaks
+    ctx.lineTo(w, h);
+    ctx.lineTo(redX + regionW * 0.05, h);
+    ctx.lineTo(redX + regionW * 0.05, mid + 0.5);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(255,127,14,0.06)';
+    ctx.fill();
+  }
+
+  // ---- Square wave: Eye tracking & Driving behavior ----
+  function drawSquareWave(ctx, w, h, color, freqBefore, freqAfter) {
+    const mid = h / 2;
+    const ampLow = h * 0.15;
+    const ampHigh = h * 0.38;
+    const blueX = w * SYNC_POS;
+    const redX = w * EVENT_POS;
+
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.moveTo(0, mid);
+
+    // Region 1: Before sync — sparse, low amplitude, jittery, GRAY (not synced)
+    ctx.save();
+    ctx.strokeStyle = '#94a3b8';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.moveTo(0, mid);
+
+    const beatW1 = blueX / freqBefore;
+    let x = 0;
+    for (let i = 0; i < freqBefore && x < blueX - 4; i++) {
+      const jitter = Math.sin(i * 2.3) * 3;
+      const startX = x + beatW1 * 0.1;
+      const endX = x + beatW1 * 0.45;
+      ctx.lineTo(startX + jitter, mid - ampLow);
+      ctx.lineTo(endX + jitter, mid - ampLow);
+      ctx.lineTo(endX + jitter, mid + ampLow * 0.5);
+      ctx.lineTo(x + beatW1 * 0.8 + jitter, mid + ampLow * 0.5);
+      ctx.lineTo(x + beatW1 * 0.8 + jitter, mid);
+      x += beatW1;
+    }
+    ctx.lineTo(blueX, mid);
+    ctx.stroke();
+    ctx.restore();
+
+    // Region 2: After sync, before event — aligned, moderate
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.moveTo(blueX, mid);
+    const region2W = redX - blueX;
+    const beatW2 = region2W / Math.round(freqBefore * 2);
+    x = blueX + 3;
+    const count2 = Math.floor(region2W / beatW2);
+    for (let i = 0; i < count2 && x < redX - 4; i++) {
+      const s = x + beatW2 * 0.08;
+      const e = x + beatW2 * 0.42;
+      ctx.lineTo(s, mid - ampLow * 1.2);
+      ctx.lineTo(e, mid - ampLow * 1.2);
+      ctx.lineTo(e, mid + ampLow * 0.6);
+      ctx.lineTo(x + beatW2 * 0.75, mid + ampLow * 0.6);
+      ctx.lineTo(x + beatW2 * 0.75, mid);
+      x += beatW2;
+    }
+    ctx.lineTo(redX, mid);
+
+    // Region 3: After event — HIGH frequency, HIGH amplitude
+    const region3W = w - redX;
+    const beatW3 = region3W / freqAfter;
+    x = redX + 2;
+    for (let i = 0; i < freqAfter && x < w - 3; i++) {
+      const s = x + beatW3 * 0.06;
+      const e = x + beatW3 * 0.38;
+      ctx.lineTo(s, mid - ampHigh);
+      ctx.lineTo(e, mid - ampHigh);
+      ctx.lineTo(e, mid + ampHigh * 0.7);
+      ctx.lineTo(x + beatW3 * 0.7, mid + ampHigh * 0.7);
+      ctx.lineTo(x + beatW3 * 0.7, mid);
+      x += beatW3;
+    }
+    ctx.lineTo(w, mid);
+
+    ctx.stroke();
+  }
+
+  // Density grid: left sparse, right dense
+  function drawDensityGrid(ctx, w, h) {
+    const blueX = w * SYNC_POS;
+    const redX = w * EVENT_POS;
+
+    // Region 1 (0→4k): very sparse, irregular
+    ctx.strokeStyle = 'rgba(148,163,184,0.08)';
+    ctx.lineWidth = 0.5;
+    const sparseGap = 40;
+    for (let x = 0; x < blueX; x += sparseGap) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+    }
+
+    // Region 2 (4k→15k): moderate, aligned
+    ctx.strokeStyle = 'rgba(37,99,235,0.06)';
+    const medGap = 20;
+    for (let x = blueX; x < redX; x += medGap) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+    }
+
+    // Region 3 (15k→20k): dense
+    ctx.strokeStyle = 'rgba(239,68,68,0.06)';
+    const denseGap = 12;
+    for (let x = redX; x < w; x += denseGap) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+    }
+  }
+
+  // Main render
+  function render() {
+    layoutTimelineMarkers();
+
+    // ECG
+    const ecg = initCanvas('waveECG');
+    if (ecg) {
+      const { ctx, w, h } = ecg;
+      drawDensityGrid(ctx, w, h);
+      drawRefLines(ctx, w, h);
+      drawECG(ctx, w, h);
+    }
+
+    // EDA
+    const eda = initCanvas('waveEDA');
+    if (eda) {
+      const { ctx, w, h } = eda;
+      drawDensityGrid(ctx, w, h);
+      drawRefLines(ctx, w, h);
+      drawEDA(ctx, w, h);
+    }
+
+    // Eye tracking — square wave
+    const eye = initCanvas('waveEye');
+    if (eye) {
+      const { ctx, w, h } = eye;
+      drawDensityGrid(ctx, w, h);
+      drawRefLines(ctx, w, h);
+      drawSquareWave(ctx, w, h, '#2ca02c', 8, 22);
+    }
+
+    // Driving behavior — square wave
+    const drv = initCanvas('waveDrive');
+    if (drv) {
+      const { ctx, w, h } = drv;
+      drawDensityGrid(ctx, w, h);
+      drawRefLines(ctx, w, h);
+      drawSquareWave(ctx, w, h, '#d62728', 6, 20);
+    }
+  }
+
+  let animationFrameId = null;
+  let animationToken = 0;
+
+  // ---- Animated waveform: clip-reveal from left to right (looping) ----
+  function animateWaveforms() {
+    animationToken += 1;
+    const currentToken = animationToken;
+    const ids = ['waveECG', 'waveEDA', 'waveEye', 'waveDrive'];
+    const canvases = ids.map(id => {
+      const c = document.getElementById(id);
+      if (!c) return null;
+      const rect = c.getBoundingClientRect();
+      // Store original width for clipping
+      c._origW = rect.width;
+      return c;
+    }).filter(Boolean);
+
+    const duration = 5200;
+    const holdDuration = 1000;
+    const resetDelay = 260;
+    const startTime = performance.now();
+
+    function step(now) {
+      if (currentToken !== animationToken) return;
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease-out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const clipX = eased; // 0 → 1
+
+      canvases.forEach(c => {
+        const dpr = window.devicePixelRatio || 1;
+        const pw = c._origW;
+        // Use CSS clip-path to reveal waveform progressively
+        c.style.clipPath = 'inset(0 ' + ((1 - clipX) * 100).toFixed(1) + '% 0 0)';
+      });
+
+      if (progress < 1) {
+        animationFrameId = requestAnimationFrame(step);
+      } else {
+        canvases.forEach(c => {
+          c.style.clipPath = 'none';
+        });
+        window.setTimeout(() => {
+          if (currentToken !== animationToken) return;
+          canvases.forEach(c => {
+            c.style.clipPath = 'inset(0 100% 0 0)';
+          });
+          window.setTimeout(() => {
+            if (currentToken !== animationToken) return;
+            animateWaveforms();
+          }, resetDelay);
+        }, holdDuration);
+      }
+    }
+
+    canvases.forEach(c => {
+      c.style.clipPath = 'inset(0 100% 0 0)';
+    });
+    animationFrameId = requestAnimationFrame(step);
+  }
+
+  // Init after layout settles
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => { render(); animateWaveforms(); }, 100);
+    });
+  } else {
+    setTimeout(() => { render(); animateWaveforms(); }, 100);
+  }
+
+  // Re-render on resize
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      render();
+      animateWaveforms();
+    }, 200);
+  });
+})();
+</script>
+
 <script>window.parent.postMessage({ action: "ready" }, "*"); 
- 
 window.console = new Proxy(console, {
   get(target, prop) {
     if (['log', 'warn', 'error'].includes(prop)) {
@@ -338,11 +1607,8 @@ window.console = new Proxy(console, {
           window.parent.postMessage({ action: 'console', 
             type: prop, 
             args: args.map((arg) => {
-              try {
-                return JSON.stringify(arg).replace(/^["']|["']$/g, '');
-              } catch (e) {
-                return arg;
-              }
+              try { return JSON.stringify(arg).replace(/^["']|["']$/g, ''); }
+              catch (e) { return arg; }
             }) 
           }, '*');
         }
@@ -351,5 +1617,6 @@ window.console = new Proxy(console, {
     return target[prop];
   }
 });
-</script></body>
+</script>
+</body>
 </html>
