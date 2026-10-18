@@ -332,16 +332,11 @@ h1,h2,h3,p,ul,li{margin:0;}strong,b{font-weight:700;color:var(--text);}
 .portfolio-bar a:hover{color:var(--accent);border-color:rgba(0,201,167,.28);}
 @media print{.portfolio-bar{display:none;}}
 </style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Noto+Sans+SC:wght@400;500;600;700&amp;display=swap"/>
+<link rel="stylesheet" href="../portfolio.css"/>
 </head>
-<body>
-<div class="portfolio-bar">
-  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-    <a href="../">驾驶模拟平台</a>
-    <a href="./" style="color:var(--accent);border-color:rgba(0,201,167,.35);">VOC数据分析</a>
-    <a href="../eye-tracking/">眼动评测平台</a>
-  </div>
-  <span>王杰 · 作品集 · 交互效果预览</span>
-</div>
+<body class="pf-page pf-voc">
+<header class="pf-header"><div class="pf-header-inner"><a class="pf-brand" href="../index.html" aria-label="王杰作品集首页"><span class="pf-brand-mark" aria-hidden="true">WJ</span>王杰 · 作品集</a><nav class="pf-nav" aria-label="作品集导航"><a href="../index.html">驾驶模拟平台</a><a href="../voc/index.html" aria-current="page">VOC 数据分析</a><a href="../eye-tracking/index.html">眼动评测平台</a></nav></div></header>
 <main class="sheet" aria-label="新能源车VOC动态分析看板 v4">
 
 <!-- ═════ METHODOLOGY BAR ═════ -->
@@ -419,6 +414,7 @@ K-Means K=5 · jieba word freq · Rule Engine · <span id="footerTimestamp"></sp
 </footer>
 
 </main>
+<footer class="pf-footer"><span>王杰 · 人因研究与工程实践</span><span>VOC 数据分析</span></footer>
 
 <script>
 // ============================================================

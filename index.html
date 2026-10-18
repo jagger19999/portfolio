@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>驾驶模拟人因研究平台搭建与应用</title>
+<title>王杰｜人因研究与工程实践作品集</title>
+<meta name="description" content="王杰的人因与用户研究作品集：驾驶模拟平台、VOC 数据分析与眼动评测平台，呈现研究方法、工程实现和数据分析能力。"/>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -497,6 +498,48 @@
       object-fit: cover;
       background: #fff;
     }
+    .simulation-comparison { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); gap: 36px; margin-top: 28px; align-items: stretch; }
+    .simulation-panel { min-width: 0; display: flex; flex-direction: column; }
+    .simulation-heading { margin-bottom: 18px; font-size: 14px; font-weight: 700; color: #0f172a; line-height: 1.6; }
+    .simulation-main { display: block; width: 100%; flex: 1; min-height: 260px; aspect-ratio: 16 / 9; object-fit: contain; border-radius: 12px; border: 1px solid #cbd5e1; background: #fff; }
+    .simulation-description { margin-top: 10px; font-size: 12px; line-height: 1.8; color: #64748b; }
+    .vr-branch { display: grid; grid-template-columns: minmax(0, 1.35fr) 40px minmax(0, 1fr); align-items: stretch; flex: 1; gap: 4px; padding-top: 4px; }
+    .vr-device-figure, .vr-view { min-width: 0; margin: 0; }
+    .vr-device-figure { display: flex; flex-direction: column; justify-content: center; }
+    .vr-device-figure img { display: block; width: 100%; min-height: 280px; flex: 1; aspect-ratio: 1 / 1; object-fit: contain; object-position: center; border-radius: 12px; background: #fff; }
+    .vr-device-figure figcaption { margin-top: 8px; font-size: 12px; font-weight: 700; color: #0f172a; }
+    .vr-device-figure a { font-size: 11px; font-weight: 400; color: #64748b; }
+    .vr-branch-arrows { width: 100%; height: 70%; min-height: 180px; align-self: center; color: #0f766e; }
+    .vr-views { display: grid; gap: 32px; }
+    .vr-view img, .vr-view video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 10px; border: 1px solid #e2e8f0; background: #fff; }
+    .vr-view figcaption { margin-top: 10px; font-size: 12px; font-weight: 700; color: #0f172a; }
+    .vr-view p { margin-top: 8px; font-size: 12px; line-height: 1.8; color: #64748b; }
+    @media (max-width: 767px) {
+      .simulation-comparison { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+      .simulation-main { width: 100%; flex: none; min-height: 0; }
+      .vr-branch { grid-template-columns: minmax(0, 1fr); }
+      .vr-device-figure img { flex: none; min-height: 0; max-height: 300px; aspect-ratio: 4 / 3; object-fit: contain; }
+      .vr-branch-arrows { height: 48px; min-height: 0; transform: rotate(90deg); width: 48px; justify-self: center; }
+      .vr-views { gap: 20px; }
+    }
+    .analysis-media { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; margin-top: 20px; align-items: start; }
+    .aoi-showcase { min-width: 0; padding: 16px; border: 1px solid #e2e8f0; border-radius: 16px; background: #f8fafc; }
+    .aoi-showcase-heading h5 { color: #0f172a; font-size: 15px; font-weight: 700; }
+    .aoi-showcase-heading > span { display: block; margin: 5px 0 12px; color: #0f766e; font-size: 11px; }
+    .aoi-showcase video { display: block; width: 100%; height: auto; border-radius: 10px; background: #111; }
+    .aoi-value { margin-top: 14px; color: #64748b; font-size: 12px; line-height: 1.9; }
+    .aoi-value h6 { margin: 0 0 12px; color: #0f172a; font-size: 14px; font-weight: 600; }
+    .aoi-comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+    .aoi-comparison strong { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; color: #0f172a; font-weight: 600; }
+    .aoi-traditional strong span { color: #dc4444; font-size: 20px; }
+    .aoi-current strong span { color: #0f766e; font-size: 20px; }
+    .aoi-current { padding-left: 24px; border-left: 1px solid #e2e8f0; }
+    @media (max-width: 540px) { .aoi-comparison { grid-template-columns: 1fr; gap: 14px; } .aoi-current { padding-left: 0; border-left: 0; } }
+    .aoi-outcomes, .aoi-tech { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .aoi-outcomes span { padding: 5px 8px; color: #115e59; background: #e9f3ef; border-radius: 5px; font-size: 11px; font-weight: 600; }
+    .aoi-tech span { color: #64748b; font-size: 10px; padding-right: 8px; border-right: 1px solid #cbd5e1; }
+    .aoi-tech span:last-child { border: 0; }
+    @media (max-width: 767px) { .analysis-media { grid-template-columns: minmax(0, 1fr); } }
     .signal-grid {
       display: grid;
       gap: 0.65rem;
@@ -690,202 +733,121 @@
       .region-labels span { text-align: left !important; }
     }
   </style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Noto+Sans+SC:wght@400;500;600;700;800;900&amp;display=swap"/>
+<link rel="stylesheet" href="./portfolio.css"/>
 </head>
-<body>
+<body class="pf-page pf-driving">
 <div class="case-shell min-h-screen">
-<header class="sticky top-0 z-20 border-b border-zinc-200/80 bg-white/80 backdrop-blur-md">
-<div class="mx-auto max-w-7xl px-6 py-4 lg:px-8">
-<div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-<div>
-<p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-teal-900/90">王杰 · 作品集</p>
-<h1 class="mt-2 text-xl font-semibold text-zinc-900 md:text-[1.65rem] md:leading-snug">驾驶模拟人因研究平台搭建与应用</h1>
-</div>
-<nav class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-zinc-600">
-<a class="font-semibold text-teal-900" href="./">驾驶模拟平台</a>
-<a class="relative text-zinc-600 transition-colors duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-teal-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.16,1,0.3,1)] hover:text-zinc-900 hover:after:scale-x-100" href="./voc/">VOC数据分析</a>
-<a class="relative text-zinc-600 transition-colors duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-teal-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.16,1,0.3,1)] hover:text-zinc-900 hover:after:scale-x-100" href="./eye-tracking/">眼动评测平台</a>
-<a class="relative text-zinc-600 transition-colors duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-teal-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.16,1,0.3,1)] hover:text-zinc-900 hover:after:scale-x-100" href="#overview">项目概览</a>
-<a class="relative text-zinc-600 transition-colors duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-teal-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.16,1,0.3,1)] hover:text-zinc-900 hover:after:scale-x-100" href="#modules">核心模块</a>
-<a class="relative text-zinc-600 transition-colors duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-teal-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.16,1,0.3,1)] hover:text-zinc-900 hover:after:scale-x-100" href="#value">项目价值</a>
-</nav>
-</div>
-</div>
-</header>
-<main class="mx-auto max-w-7xl px-6 py-6 lg:px-8 lg:py-8">
+<header class="pf-header"><div class="pf-header-inner"><a class="pf-brand" href="./index.html" aria-label="王杰作品集首页"><span class="pf-brand-mark" aria-hidden="true">WJ</span>王杰 · 作品集</a><nav class="pf-nav" aria-label="作品集导航"><a href="./index.html" aria-current="page">驾驶模拟平台</a><a href="./voc/index.html">VOC 数据分析</a><a href="./eye-tracking/index.html">眼动评测平台</a></nav></div></header>
+<main class="pf-main">
 
-<!-- ========== SECTION 1: Personal Info ========== -->
-<section class="mb-5 rounded-3xl border border-zinc-200/90 bg-white p-6 shadow-[0_1px_2px_rgba(24,24,27,0.04)] ring-1 ring-zinc-950/[0.03] lg:p-8">
-<p class="text-sm font-semibold text-teal-900">个人信息</p>
-<div class="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-<div class="meta-card rounded-2xl p-4">
-  <p class="text-xs font-semibold tracking-wide text-teal-900">姓名</p>
-  <p class="mt-2 text-sm font-semibold text-slate-900">王杰</p>
-</div>
-<div class="meta-card rounded-2xl p-4">
-  <p class="text-xs font-semibold tracking-wide text-teal-900">求职意向</p>
-  <p class="mt-2 text-sm font-semibold text-slate-900">人因用户研究</p>
-</div>
-<div class="meta-card rounded-2xl p-4">
-  <p class="text-xs font-semibold tracking-wide text-teal-900">手机号</p>
-  <p class="mt-2 text-sm font-semibold text-slate-900">13584012372</p>
-</div>
-<div class="meta-card rounded-2xl p-4">
-  <p class="text-xs font-semibold tracking-wide text-teal-900">邮箱</p>
-  <p class="mt-2 text-sm font-semibold text-slate-900">242312036@njnu.edu.cn</p>
-</div>
-</div>
+<!-- Personal introduction and project directory -->
+<section class="pf-profile" aria-labelledby="profile-name">
+  <div><h2 class="pf-profile-name" id="profile-name">王杰</h2><p class="pf-profile-role">求职意向：人因用户研究</p></div>
+  <dl class="pf-contact"><div><dt>联系电话</dt><dd><a class="pf-mono" href="tel:13584012372">13584012372</a></dd></div><div><dt>电子邮箱</dt><dd><a href="mailto:242312036@njnu.edu.cn">242312036@njnu.edu.cn</a></dd></div></dl>
+</section>
+<section class="pf-directory" aria-labelledby="project-directory-title">
+  <div class="pf-directory-heading"><h2 id="project-directory-title">项目目录</h2></div>
+  <div class="pf-projects">
+    <a class="pf-project" href="#overview"><h3>驾驶模拟平台</h3><img class="pf-project-image pf-project-image-scene" src="./驾驶场景.png" alt="驾驶模拟平台：参与者在实体座舱中操控方向盘进行驾驶实验" width="648" height="415" decoding="async"/><div class="pf-project-details"><p><span class="pf-detail-label">环境</span><span><strong class="pf-key">Unity</strong> · <strong class="pf-key">HTC VIVE Pro Eye</strong></span></p><p><span class="pf-detail-label">采集</span><span><strong class="pf-key">眼动 / ECG 心电 / EDA 皮电 / 驾驶行为</strong></span></p><p><span class="pf-detail-label">模型</span><span><strong class="pf-key">SegFormer B2 · SAM 2.1</strong></span></p></div></a>
+    <a class="pf-project" href="./voc/index.html"><h3>VOC 数据分析</h3><img class="pf-project-image" src="./voc/assets/wordcloud-xiaomi.png" alt="VOC 数据分析：小米车主口碑中的高频积极词云" width="620" height="302" decoding="async"/><div class="pf-project-details"><p><span class="pf-detail-label">模型</span><span><strong class="pf-key">RoBERTa</strong> 情绪识别 · <strong class="pf-key">K-Means</strong> 用户画像</span></p><p><span class="pf-detail-label">处理</span><span><strong class="pf-key">Jieba 分词</strong> · 词频与维度分析</span></p><p><span class="pf-detail-label">输出</span><span>词云 / 评分矩阵 / 产品改进建议</span></p></div></a>
+    <a class="pf-project" href="./eye-tracking/index.html"><h3>眼动评测平台</h3><img class="pf-project-image" src="./eye-tracking/assets/su7-scanpath-20261017.png" alt="眼动评测平台：小米 SU7 页面上的扫视路径示例" width="1635" height="894" decoding="async"/><div class="pf-project-details"><p><span class="pf-detail-label">设备</span><span><strong class="pf-key">Tobii 4C</strong> · <strong class="pf-key">九点精度验证</strong></span></p><p><span class="pf-detail-label">输出</span><span>热力图 / 扫视路径 / AOI 指标</span></p><p><span class="pf-detail-label">依据</span><span><strong class="pf-key pf-paper">Accident Analysis &amp; Prevention（AAP）</strong> 相关研究</span></p></div></a>
+  </div>
 </section>
 
-<!-- ========== SECTION 2: Overview ========== -->
-<section class="rounded-3xl border border-zinc-200/90 bg-white p-6 shadow-[0_1px_2px_rgba(24,24,27,0.04)] ring-1 ring-zinc-950/[0.03] lg:p-8" id="overview">
-<div class="grid gap-8 lg:grid-cols-12 lg:items-start">
-<div class="lg:col-span-7">
-  <p class="text-sm font-semibold tracking-wider text-teal-900">项目摘要</p>
-  <h2 class="section-title mt-3 text-3xl font-semibold leading-[1.15] text-zinc-900 lg:text-[2.35rem]">从 0-1 搭建驾驶模拟研究平台，并完成多模态实验接入与研究支撑</h2>
-  <p class="mt-5 max-w-[65ch] text-[17px] leading-[1.75] text-zinc-600">
-    围绕驾驶人因研究需求，独立完成从实验场景搭建、多模态设备接入与同步、行为分析支持到成果输出的全流程推进，支撑驾驶模拟实验的稳定运行与研究验证。
-  </p>
-  <div class="mt-8 flex flex-wrap gap-3">
-    <span class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-700">人因研究</span>
-    <span class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-700">驾驶模拟</span>
-    <span class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-700">多模态实验</span>
-    <span class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-700">场景评估</span>
+<!-- Driving simulation project overview -->
+<section class="pf-overview" id="overview" aria-labelledby="driving-project-title">
+  <h1 id="driving-project-title">驾驶模拟人因研究平台</h1>
+  <p class="pf-overview-description">主导 <strong class="pf-key">Unity 场景开发</strong>、软硬件联调与眼动分析流程搭建。</p>
+  <div class="pf-project-stats" aria-label="平台能力概览">
+    <div class="pf-project-stat"><span class="pf-stat-value">2</span><div><h2>种实验环境</h2><p>实体驾驶模拟 / VR 仿真</p></div></div>
+    <div class="pf-project-stat"><span class="pf-stat-value">4</span><div><h2>类同步数据</h2><p>眼动 / ECG / EDA / 驾驶行为</p></div></div>
+    <div class="pf-project-stat"><span class="pf-stat-value">2</span><div><h2>类视觉模型</h2><p>SegFormer B2 / SAM 2.1</p></div></div>
   </div>
-</div>
-<div class="lg:col-span-5">
-  <div class="grid gap-4 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-    <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-      <p class="text-xs font-semibold tracking-wide text-teal-900">项目角色</p>
-      <p class="mt-2 text-sm leading-7 text-slate-700">主导平台搭建、多模态接入、研究分析与成果输出</p>
-    </div>
-    <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-      <p class="text-xs font-semibold tracking-wide text-teal-900">研究对象</p>
-      <p class="mt-2 text-sm leading-7 text-slate-700">驾驶行为 / 眼动 / 皮电 / 心率等多源实验数据</p>
-    </div>
-    <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-      <p class="text-xs font-semibold tracking-wide text-teal-900">关键贡献</p>
-      <ul class="mt-2 space-y-2 text-sm leading-7 text-slate-700">
-        <li>0-1 搭建驾驶模拟实验平台</li>
-        <li>建立多设备同步采集机制</li>
-        <li>支撑分析验证与阶段性成果输出</li>
-      </ul>
-    </div>
-  </div>
-</div>
-</div>
 </section>
 
 <!-- ========== SECTION 3: Core Modules ========== -->
-<section class="mt-5" id="modules">
-<div class="mb-3 flex items-end justify-between gap-4">
-  <div>
-    <p class="text-sm font-semibold text-teal-900">核心模块</p>
-    <h3 class="section-title mt-1 text-2xl font-semibold text-zinc-900">平台搭建 → 数据接入 → 行为分析 → 成果输出</h3>
-  </div>
-</div>
-<div class="grid gap-3">
+<section id="modules" aria-labelledby="modules-title">
+<div class="pf-section-heading"><h2 id="modules-title">核心模块</h2></div>
+<div class="pf-module-list">
 
 <!-- MODULE 01 -->
-<article class="flex h-full flex-col rounded-3xl border border-zinc-200/90 bg-white p-5 shadow-[0_1px_2px_rgba(24,24,27,0.04)] ring-1 ring-zinc-950/[0.03] transition-[box-shadow,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(24,24,27,0.06)]">
+<article class="pf-module">
 <div class="flex items-center gap-3">
   <span class="text-sm font-semibold text-teal-900">01</span>
-  <h4 class="text-lg font-bold text-slate-900">实验场景与平台搭建</h4>
+  <h3>人因实验设计与场景开发</h3>
 </div>
-<div class="mt-4 space-y-5 text-[15px] leading-relaxed text-slate-700">
-  <div>
-    <p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-teal-700"></span>目标</p>
-    <p class="pl-3.5 text-slate-600">搭建可支撑驾驶模拟研究的实验场景与软硬件运行环境。</p>
-  </div>
-  <div>
-    <p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-teal-700"></span>完成</p>
-    <ul class="space-y-2 pl-3.5 text-slate-600">
-      <li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>基于 Unity 从 0-1 搭建驾驶实验场景，完成道路环境、事件逻辑与实验流程开发。</li>
-      <li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>打通驾驶模拟器、显示系统与实验计算设备，实现软硬件联调与稳定运行。</li>
-      <li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>针对道路、绿化与环境细节进行渲染优化，兼顾画面表现与运行性能，支持较低配置设备完成 90 分钟以上实验任务。</li>
-    </ul>
-  </div>
-  <div class="flex flex-wrap gap-2 pt-2">
-    <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">Unity 场景开发</span>
-    <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">软硬件联调</span>
-    <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">渲染优化</span>
-  </div>
-</div>
-<div class="mt-5 grid gap-4 md:grid-cols-3">
-  <!-- Desktop Simulator -->
-  <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-    <img alt="桌面版驾驶模拟实验场景" class="aspect-video w-full rounded-xl border border-slate-200 object-cover bg-white" src="./驾驶场景.png"/>
-    <p class="mt-3 text-xs font-bold text-slate-900">桌面版驾驶模拟</p>
-    <p class="mt-1 text-xs leading-5 text-slate-500">真实操控负荷 / 座舱交互验证 / 硬件在环</p>
-  </div>
-  <!-- VR Simulator -->
-  <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-    <img alt="VR版驾驶模拟实验场景" class="aspect-video w-full rounded-xl border border-slate-200 object-cover bg-white" src="./vr1.jpg"/>
-    <p class="mt-3 text-xs font-bold text-slate-900">VR版驾驶模拟</p>
-    <p class="mt-1 text-xs leading-5 text-slate-500">危险事件应急 / 视觉注意 / 眼动追踪</p>
-  </div>
-  <!-- AR-HUD Demo -->
-  <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-    <video aria-label="AR-HUD 驾驶提示动态演示" autoplay class="gif-video" loop muted playsinline preload="metadata">
-      <source src="./ar-hud-demo-h264.mp4" type="video/mp4"/>
-    </video>
-    <p class="mt-3 text-xs font-bold text-slate-900">AR-HUD 驾驶提示</p>
-    <p class="mt-1 text-xs leading-5 text-slate-500">增强现实导航 / 风险提示 / 座舱信息呈现</p>
-  </div>
+<div class="pf-module-summary"><p>基于 <strong class="pf-key">PDT</strong>、<strong class="pf-key">驾驶警觉性（Driving Vigilance）</strong>等人因实验范式，使用 <strong class="pf-key">Unity 从 0 开发驾驶场景、任务逻辑与实验流程</strong>。</p><p>联调实体模拟器与 <strong class="pf-key">HTC VIVE Pro Eye</strong>，实现多模态同步采集；VR 环境中可通过头显记录<strong class="pf-key">眼动数据</strong>。</p><p>完成渲染优化，支持 <strong class="pf-key">90 分钟以上</strong>的实验任务。</p></div>
+<div class="simulation-comparison" aria-label="两种并列的驾驶模拟仿真实验形式">
+  <section class="simulation-panel" aria-labelledby="physical-simulation-title">
+    <h4 id="physical-simulation-title" class="simulation-heading">实体驾驶模拟仿真环境</h4>
+    <img alt="实体驾驶模拟器与外部屏幕构成的驾驶模拟仿真实验环境" class="simulation-main" src="./驾驶场景.png"/>
+    <p class="simulation-description">实体操控与外部屏幕呈现驾驶场景。</p>
+  </section>
+  <section class="simulation-panel" aria-labelledby="vr-simulation-title">
+    <h4 id="vr-simulation-title" class="simulation-heading">佩戴 VR 头显的驾驶模拟仿真环境</h4>
+    <div class="vr-branch" aria-label="HTC 头显连接实际实验场景与 VR 内画面">
+      <figure class="vr-device-figure">
+        <img alt="HTC VIVE Pro Eye 官方产品图" src="./vive-pro-eye-official.jpg"/>
+        <figcaption><strong class="pf-key">HTC VIVE Pro Eye</strong> · Tobii 眼动追踪<br/><a href="https://www.vive.com/sea/product/vive-pro-eye/overview/" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2">图片来源：HTC 官网</a></figcaption>
+      </figure>
+      <svg class="vr-branch-arrows" viewBox="0 0 80 280" fill="none" aria-hidden="true" preserveAspectRatio="none">
+        <defs><marker id="vr-arrow-tip" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" stroke="currentColor" stroke-width="1.5"/></marker></defs>
+        <path d="M4 140H28V28H74M28 140V252H74" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#vr-arrow-tip)"/>
+        <path d="M58 28H74" stroke="currentColor" stroke-width="1.5" marker-end="url(#vr-arrow-tip)"/>
+      </svg>
+      <div class="vr-views">
+        <figure class="vr-view">
+          <img alt="参与者在实际实验场景中佩戴 VR 头显进行驾驶模拟仿真" src="./vr1.jpg"/>
+          <figcaption>实际实验场景</figcaption>
+        </figure>
+        <figure class="vr-view">
+          <video aria-label="VR 画面：用于评估驾驶员反应时间的 AR-HUD 告警仿真" autoplay loop muted playsinline preload="metadata">
+            <source src="./ar-hud-demo-h264.mp4" type="video/mp4"/>
+          </video>
+          <figcaption>VR 画面 · AR-HUD 告警仿真</figcaption>
+          <p>比较不同告警时机下的驾驶员反应时间，评估 AR-HUD 告警效果。</p>
+        </figure>
+      </div>
+    </div>
+  </section>
 </div>
 </article>
 
 <!-- ========== MODULE 02: MULTI-MODAL SYNC — REDESIGNED ========== -->
-<article class="rounded-3xl border border-zinc-200/90 bg-white p-5 shadow-[0_1px_2px_rgba(24,24,27,0.04)] ring-1 ring-zinc-950/[0.03] transition-[box-shadow,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(24,24,27,0.06)]">
+<article class="pf-module">
 <div class="flex items-center gap-3">
   <span class="text-sm font-semibold text-teal-900">02</span>
-  <h4 class="text-lg font-bold text-slate-900">多模态数据接入与毫秒级同步</h4>
+  <h3>多模态数据接入与毫秒级同步</h3>
 </div>
-<div class="mt-4 space-y-5 text-[15px] leading-relaxed text-slate-700">
-  <div>
-    <p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-teal-700"></span>目标</p>
-    <p class="pl-3.5 text-slate-600">将驾驶行为、眼动与生理信号映射到同一时间基准，实现跨设备毫秒级时间戳对齐，并支撑事件级行为分析。</p>
-  </div>
-  <div>
-    <p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-teal-700"></span>完成</p>
-    <ul class="space-y-2 pl-3.5 text-slate-600">
-      <li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>构建统一时钟与事件总线，将 ECG、EDA、眼动、驾驶任务日志按统一时间轴对齐，支持异步采样率融合。</li>
-      <li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>在采集端完成事件触发打标（如突然风险、接管、警报提示），并将事件窗口回写到多模态数据切片。</li>
-      <li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>形成"时间戳对齐 → 事件窗口抽取 → 指标聚合"的分析闭环，显著降低人工对帧与手工标注成本。</li>
-    </ul>
-  </div>
-  <div class="flex flex-wrap gap-2 pt-2">
-    <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">毫秒级对齐</span>
-    <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">事件总线</span>
-    <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">窗口化分析</span>
-  </div>
-</div>
+<div class="pf-module-summary"><p>同步接入 <strong class="pf-key">眼动、ECG 心电、EDA 皮电与驾驶行为</strong>，统一时钟和时间戳。</p><p>按风险、接管等事件提取分析窗口，汇总事件前后的变化。</p></div>
 
 <div class="signal-grid mt-5">
   <div class="signal-card">
     <img alt="眼动追踪数据接入" src="./眼动仪.webp"/>
     <div>
-      <p>眼动追踪</p>
+      <p class="pf-key">眼动追踪</p>
       <p>视线轨迹 · 注视点 · AOI 分析</p>
     </div>
   </div>
   <div class="signal-card">
     <img alt="心电与心率数据接入" src="./心电 ecg.png"/>
     <div>
-      <p>心电 / 心率</p>
+      <p class="pf-key">ECG 心电 / 心率</p>
       <p>HR · HRV · 疲劳与负荷变化</p>
     </div>
   </div>
   <div class="signal-card">
     <img alt="驾驶行为数据接入" src="./驾驶情景.png"/>
     <div>
-      <p>驾驶行为指标</p>
+      <p class="pf-key">驾驶行为指标</p>
       <p>车速 · 车道偏移 · 操作反应</p>
     </div>
   </div>
   <div class="signal-card">
     <img alt="皮肤电数据接入" src="./eda 采集.png"/>
     <div>
-      <p>皮肤电</p>
+      <p class="pf-key">EDA 皮电</p>
       <p>EDA · 唤醒水平 · 风险刺激反应</p>
     </div>
   </div>
@@ -1033,75 +995,34 @@
 </article>
 
 <!-- MODULE 03 -->
-<article class="rounded-3xl border border-zinc-200/90 bg-white p-5 shadow-[0_1px_2px_rgba(24,24,27,0.04)] ring-1 ring-zinc-950/[0.03] transition-[box-shadow,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(24,24,27,0.06)]">
+<article class="pf-module">
 <div class="flex items-center gap-3">
   <span class="text-sm font-semibold text-teal-900">03</span>
-  <h4 class="text-lg font-bold text-slate-900">行为分析与研究支持</h4>
+  <h3>从人工划区到智能 AOI 分析</h3>
 </div>
-<div class="mt-4 space-y-5 text-[15px] leading-relaxed text-slate-700">
-  <div>
-    <p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-teal-700"></span>目标</p>
-    <p class="pl-3.5 text-slate-600">围绕关键驾驶指标，结合眼动、心率、心率变异性及皮肤电等多模态数据，开展核心指标的对比统计分析与结果解释，提升驾驶行为研究的可解释性。</p>
-  </div>
-  <div>
-    <p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-teal-700"></span>完成</p>
-    <ul class="space-y-2 pl-3.5 text-slate-600">
-      <li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>围绕速度控制、车道保持、操作反应等关键驾驶指标，结合眼动、心率、心率变异性及皮肤电等多模态数据开展联合分析。</li>
-      <li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>基于 Python 数据分析库进行核心指标的对比统计，并结合方差分析、T 检验等方法对实验结果进行显著性验证。</li>
-      <li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>结合驾驶行为表现与生理心理指标变化，对实验结果进行解释，为课题假设验证与研究结论形成提供支持。</li>
-    </ul>
-  </div>
-  <div class="flex flex-wrap gap-2 pt-2">
-    <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">行为分析</span>
-    <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">多源关联</span>
-    <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">研究支持</span>
-  </div>
-</div>
-<div class="mt-5 grid gap-4 sm:grid-cols-2">
-  <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
-    <video aria-label="理想 HUD 眼动实验动态演示" autoplay class="gif-video rounded-2xl" loop muted playsinline preload="metadata">
-      <source src="./li-hud-eye-tracking.mp4" type="video/mp4"/>
+<p class="mt-4 text-sm leading-7 text-slate-600">结合 <strong class="pf-key">SegFormer B2 语义分割</strong>、任务适配微调与 <strong class="pf-key">SAM 2.1 提示辅助分割</strong>，生成动态 AOI 候选，映射真实眼动坐标，完成区域归属与停留统计。</p>
+<div class="analysis-media">
+  <section class="aoi-showcase" aria-label="动态 AOI 识别与眼动映射">
+    <video aria-label="真实驾驶画面与语义分割对照，双侧白圈为同一真实眼动点" autoplay controls loop muted playsinline preload="metadata" poster="./aoi-demo/media/poster.jpg">
+      <source src="./aoi-demo/media/aoi-loop-green-5s.mp4" type="video/mp4"/>
+      <a href="./aoi-demo/media/aoi-loop-green-5s.mp4">播放 AOI 分析演示</a>
     </video>
-    <p class="mt-3 text-xs font-semibold text-slate-900">理想 HUD 眼动</p>
-  </div>
-  <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
-    <img alt="眼动热力图" class="aspect-video w-full rounded-2xl border border-slate-200 object-cover bg-white" src="./眼动热力图.png"/>
-    <p class="mt-3 text-xs font-semibold text-slate-900">眼动热力图</p>
-  </div>
+    <div class="aoi-value"><h5>减少人工标注，统一分析口径</h5><div class="aoi-comparison"><div class="aoi-traditional"><strong><span aria-hidden="true">✕</span> 传统 AOI 划分</strong><p>人工逐帧划区、持续更新边界；重复工作多，标注口径易因人而异。</p></div><div class="aoi-current"><strong><span aria-hidden="true">✓</span> 智能 AOI 分析</strong><p>融合语义分割与任务微调，自动生成区域候选并映射眼动点，形成统一的统计流程。</p></div></div></div>
+    <div class="aoi-outcomes"><span>眼动点区域归属</span><span>区域停留时长与占比</span><span>AOI 访问与切换</span></div>
+    <div class="aoi-tech" aria-label="技术方法"><span class="pf-key">SegFormer B2</span><span class="pf-key">SAM 2.1</span><span>迁移学习与任务微调</span><span>空间位置特征融合</span><span>提示辅助跟踪</span><span>眼动时空映射</span></div>
+  </section>
 </div>
 </article>
 
 <!-- MODULE 04 -->
-<article class="rounded-3xl border border-zinc-200/90 bg-white p-5 shadow-[0_1px_2px_rgba(24,24,27,0.04)] ring-1 ring-zinc-950/[0.03] transition-[box-shadow,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(24,24,27,0.06)]">
+<article class="pf-module">
 <div class="flex items-center gap-3">
   <span class="text-sm font-semibold text-teal-900">04</span>
-  <h4 class="text-lg font-bold text-slate-900">可视化汇报与成果输出</h4>
+  <h3>可视化汇报与成果输出</h3>
 </div>
-<div class="mt-4 grid gap-6 lg:grid-cols-2 lg:items-start">
-  <div>
-    <div class="space-y-5 text-[15px] leading-relaxed text-slate-700">
-      <div>
-        <p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-teal-700"></span>成果</p>
-        <p class="pl-3.5 text-slate-600">相关成果已在<span class="font-bold text-teal-800">人因工程与智能系统交互国际会议</span>上完成汇报，并获得同行沟通交流与反馈。</p>
-      </div>
-      <div>
-        <p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-teal-700"></span>目标</p>
-        <p class="pl-3.5 text-slate-600">完成研究成果的整理、可视化表达与会议汇报输出，支撑课题交流与研究传播。</p>
-      </div>
-      <div>
-        <p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-teal-700"></span>完成</p>
-        <ul class="space-y-2 pl-3.5 text-slate-600">
-          <li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>将驾驶行为指标、眼动结果及生理数据分析结论进行整合，提炼形成可展示的核心研究发现。</li>
-          <li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>围绕实验背景、研究方法、关键结果与结论，制作汇报页面、展示图表及会议汇报材料。</li>
-          <li class="flex items-start"><span class="mr-2 mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-400"></span>针对高速公路绿化隔离带对驾驶员警惕性影响这一研究主题，完成成果梳理与对外交流表达。</li>
-        </ul>
-      </div>
-      <div class="flex flex-wrap gap-2 pt-2">
-        <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">结果可视化</span>
-        <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">汇报表达</span>
-        <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">成果输出</span>
-      </div>
-    </div>
+<div class="pf-research-grid">
+  <div class="pf-research-column">
+    <div class="pf-research-copy"><h4>国际会议汇报</h4><p>完成人因工程与智能系统交互国际会议汇报，展示驾驶模拟平台、多模态分析与研究成果。</p></div>
     <div class="mt-5 grid gap-4 sm:grid-cols-2">
       <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
         <img alt="会议现场1" class="aspect-video w-full rounded-2xl border border-slate-200 object-cover" src="./场景 1.jpg"/>
@@ -1113,26 +1034,8 @@
       </div>
     </div>
   </div>
-  <div class="lg:border-l lg:border-slate-200 lg:pl-6">
-    <div class="space-y-5 text-[15px] leading-relaxed text-slate-700">
-      <div>
-        <p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-teal-700"></span>成果</p>
-        <p class="pl-3.5 text-slate-600">研究《中央绿化隔离带对高速驾驶警觉度的影响：基于注视熵的眼动证据》于<span class="font-bold text-teal-800">中国心理学会眼动心理学术年会</span>完成口头汇报。</p>
-      </div>
-      <div>
-        <p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-teal-700"></span>目标</p>
-        <p class="pl-3.5 text-slate-600">总结中央绿化隔离带对高速驾驶警觉度的影响，基于注视熵等眼动指标形成研究结论并完成学术交流。</p>
-      </div>
-      <div>
-        <p class="mb-2 font-bold text-slate-900 flex items-center"><span class="mr-2 h-1.5 w-1.5 rounded-full bg-teal-700"></span>关键结果</p>
-        <p class="pl-3.5 text-slate-600">绿化隔离带条件下，驾驶员的静态注视熵与动态注视熵均更高，表现出更广泛、灵活的视觉搜索模式，提示其在长时高速驾驶过程中维持了更高水平的驾驶警觉度。</p>
-      </div>
-      <div class="flex flex-wrap gap-2 pt-2">
-        <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">结果可视化</span>
-        <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">汇报表达</span>
-        <span class="rounded-full border border-teal-200/70 bg-teal-50/90 px-3 py-1 text-xs font-semibold text-teal-900">成果输出</span>
-      </div>
-    </div>
+  <div class="pf-research-column">
+    <div class="pf-research-copy"><h4>眼动心理学术年会口头汇报</h4><p>研究《中央绿化隔离带对高速驾驶警觉度的影响：基于注视熵的眼动证据》。</p><p><strong class="pf-key">关键结果：</strong>绿化隔离带条件下，静态与动态注视熵均更高，呈现更广泛、灵活的视觉搜索模式。</p></div>
     <div class="mt-5 grid gap-4 sm:grid-cols-2">
       <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
         <img alt="注视熵眼动可视化机制" class="aspect-video w-full rounded-2xl border border-slate-200 object-cover bg-white" loading="lazy" src="./fig4-gaze-mechanism.gif"/>
@@ -1149,34 +1052,18 @@
 </div>
 </section>
 
-<!-- ========== SECTION 5: Value ========== -->
-<section class="mt-5 rounded-3xl border border-zinc-200/90 bg-white p-6 shadow-[0_1px_2px_rgba(24,24,27,0.04)] ring-1 ring-zinc-950/[0.03] lg:p-8" id="value">
-<div class="grid gap-8 lg:grid-cols-12 lg:items-start">
-<div class="lg:col-span-4">
-  <p class="text-sm font-semibold text-teal-900">项目产出与价值</p>
-  <h3 class="section-title mt-2 text-2xl font-bold text-slate-900">沉淀为可复用的人因研究基础能力</h3>
-  <p class="mt-4 text-sm leading-8 text-slate-700">
-    项目不仅完成单次课题支持，更沉淀出一套可运行、可同步、可分析、可展示的驾驶人因研究基础能力，可持续支撑后续研究验证与展示交流。
-  </p>
-</div>
-<div class="grid gap-4 sm:grid-cols-3 lg:col-span-8">
-  <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-    <p class="text-sm font-semibold text-slate-900">01 可运行实验平台</p>
-    <p class="mt-2 text-sm leading-7 text-slate-700">支持驾驶场景搭建、事件触发与长时稳定实验运行。</p>
+<!-- Project value -->
+<section class="pf-value" id="value" aria-labelledby="project-value-title">
+  <div class="pf-section-heading"><h2 id="project-value-title">项目价值</h2></div>
+  <div class="pf-value-grid">
+    <div class="pf-value-item"><h3>实验搭建</h3><p>完成场景开发、任务设计与软硬件联调，支持驾驶模拟实验。</p></div>
+    <div class="pf-value-item"><h3>数据分析</h3><p>统一多设备时间轴，结合动态 AOI 完成眼动区域映射与指标统计。</p></div>
+    <div class="pf-value-item"><h3>研究输出</h3><p>整理可视化结果与研究结论，完成学术汇报和成果交流。</p></div>
   </div>
-  <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-    <p class="text-sm font-semibold text-slate-900">02 可同步采集机制</p>
-    <p class="mt-2 text-sm leading-7 text-slate-700">完成驾驶行为、眼动、皮电、心率等多设备数据接入与时间对齐。</p>
-  </div>
-  <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-    <p class="text-sm font-semibold text-slate-900">03 可复用研究输出</p>
-    <p class="mt-2 text-sm leading-7 text-slate-700">支撑课题分析验证、阶段性汇报及对内外交流展示。</p>
-  </div>
-</div>
-</div>
 </section>
 
 </main>
+<footer class="pf-footer"><span>王杰 · 人因研究与工程实践</span></footer>
 </div>
 
 <script>
@@ -1533,6 +1420,12 @@
       return c;
     }).filter(Boolean);
 
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      canvases.forEach(c => { c.style.clipPath = 'none'; });
+      return;
+    }
+
     const duration = 5200;
     const holdDuration = 1000;
     const resetDelay = 260;
@@ -1586,6 +1479,8 @@
   } else {
     setTimeout(() => { render(); animateWaveforms(); }, 100);
   }
+
+  window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', animateWaveforms);
 
   // Re-render on resize
   let resizeTimer;
