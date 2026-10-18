@@ -336,26 +336,67 @@ h1,h2,h3,p,ul,li{margin:0;}strong,b{font-weight:700;color:var(--text);}
 <link rel="stylesheet" href="../portfolio.css"/>
 </head>
 <body class="pf-page pf-voc">
-<header class="pf-header"><div class="pf-header-inner"><a class="pf-brand" href="../index.html" aria-label="王杰作品集首页"><span class="pf-brand-mark" aria-hidden="true">WJ</span>王杰 · 作品集</a><nav class="pf-nav" aria-label="作品集导航"><a href="../index.html">驾驶模拟平台</a><a href="../voc/index.html" aria-current="page">VOC 数据分析</a><a href="../eye-tracking/index.html">眼动评测平台</a></nav></div></header>
+<header class="pf-header"><div class="pf-header-inner"><a class="pf-brand" href="../index.html" aria-label="王杰作品集首页"><span class="pf-brand-mark" aria-hidden="true">WJ</span>王杰 · 作品集</a><nav class="pf-nav" aria-label="作品集导航"><a href="../index.html">驾驶模拟平台</a><a href="../voc/index.html" aria-current="page">大数据分析</a><a href="../eye-tracking/index.html">眼动评测平台</a></nav></div></header>
 <main class="pf-main">
 <div class="pf-identity">
 <section class="pf-profile" aria-labelledby="profile-name">
-  <div><h2 class="pf-profile-name" id="profile-name">王杰</h2><p class="pf-profile-role">求职意向：人因用户研究</p></div>
-  <p class="pf-profile-intro">热爱汽车，兼具<strong>人因实验、工程开发与数据分析</strong>能力，关注驾驶研究、用户洞察与界面交互评测。</p>
-  <dl class="pf-contact"><div><dt>联系电话</dt><dd><a class="pf-mono" href="tel:13584012372">13584012372</a></dd></div><div><dt>电子邮箱</dt><dd><a href="mailto:242312036@njnu.edu.cn">242312036@njnu.edu.cn</a></dd></div></dl>
+  <div class="pf-profile-lead">
+    <h2 class="pf-profile-name" id="profile-name">王杰</h2>
+    <p class="pf-profile-role">求职意向：研三应届 · 人因与用户研究</p>
+    <dl class="pf-contact"><div><dt>联系电话</dt><dd><a class="pf-mono" href="tel:13584012372">13584012372</a></dd></div><div><dt>电子邮箱</dt><dd><a href="mailto:242312036@njnu.edu.cn">242312036@njnu.edu.cn</a></dd></div></dl>
+    <ul class="pf-skill-tags" aria-label="核心能力">
+      <li>用户研究</li>
+      <li>产品定义与洞察</li>
+      <li>人因实验</li>
+      <li>大数据分析</li>
+    </ul>
+  </div>
+  <div class="pf-profile-copy">
+    <p class="pf-profile-intro">热情抗压，热爱汽车，兼具<strong>人因实验、工程开发与数据分析</strong>能力，关注驾驶研究、用户洞察与界面交互评测。</p>
+  </div>
+  <div class="pf-background">
+    <ul class="pf-experience">
+      <li>
+        <img class="pf-experience-logo pf-experience-logo-school" src="../opt/logos/njnu.png" alt="" width="256" height="256"/>
+        <div>
+          <p class="pf-experience-org">南京师范大学</p>
+          <p class="pf-experience-role">工程心理学硕士</p>
+          <p class="pf-experience-time">2024.09 — 2027.06</p>
+        </div>
+      </li>
+      <li>
+        <img class="pf-experience-logo" src="../opt/logos/nio.svg" alt="" width="88" height="28"/>
+        <div>
+          <p class="pf-experience-org">蔚来汽车</p>
+          <p class="pf-experience-role">数字座舱预研实习生</p>
+          <p class="pf-experience-note">竞品洞察、人机环产品定义、生理感知 PoC</p>
+          <p class="pf-experience-time">2026.05 — 至今</p>
+        </div>
+      </li>
+      <li>
+        <img class="pf-experience-logo" src="../opt/logos/huawei.svg" alt="" width="28" height="28"/>
+        <div>
+          <p class="pf-experience-org">华为</p>
+          <p class="pf-experience-role">鸿蒙开放能力部 · 高级产品运营</p>
+          <p class="pf-experience-note">鸿蒙生态（华为账号）、PRD、用户访谈</p>
+          <p class="pf-experience-time">2022.07 — 2024.07</p>
+        </div>
+      </li>
+    </ul>
+  </div>
 </section>
 <section class="pf-directory" aria-labelledby="project-directory-title">
   <div class="pf-directory-heading"><h2 id="project-directory-title">项目目录</h2></div>
   <nav class="pf-projects" aria-label="三个项目">
-    <a class="pf-project" data-project="driving" href="../index.html"><div class="pf-project-top"><h3>驾驶模拟平台</h3><span class="pf-project-arrow" aria-hidden="true">↗</span></div><p class="pf-project-scope">人因实验与工程开发</p><img class="pf-project-image pf-project-image-scene" src="../opt/driving-scene.webp" alt="驾驶模拟平台：参与者在实体座舱中操控方向盘进行驾驶实验" width="648" height="415" decoding="async"/><div class="pf-project-details"><p><span class="pf-detail-label">环境</span><span><strong class="pf-key">Unity</strong> · <strong class="pf-key">HTC VIVE Pro Eye</strong></span></p><p><span class="pf-detail-label">采集</span><span><strong class="pf-key">眼动 / ECG 心电 / EDA 皮电 / 驾驶行为</strong></span></p><p><span class="pf-detail-label">模型</span><span><strong class="pf-key">SegFormer B2 · SAM 2.1</strong></span></p></div></a>
-    <a class="pf-project" data-project="voc" aria-current="page" href="#project-content"><div class="pf-project-top"><h3>VOC 数据分析</h3><span class="pf-project-state">当前浏览</span></div><p class="pf-project-scope">用户洞察与数据分析</p><img class="pf-project-image" src="../voc/assets/wordcloud-xiaomi.png" alt="VOC 数据分析：小米车主口碑中的高频积极词云" width="620" height="302" decoding="async"/><div class="pf-project-details"><p><span class="pf-detail-label">模型</span><span><strong class="pf-key">RoBERTa</strong> 情绪识别 · <strong class="pf-key">K-Means</strong> 用户画像</span></p><p><span class="pf-detail-label">处理</span><span><strong class="pf-key">Jieba 分词</strong> · 词频与维度分析</span></p><p><span class="pf-detail-label">输出</span><span>词云 / 评分矩阵 / 产品改进建议</span></p></div></a>
-    <a class="pf-project" data-project="eye" href="../eye-tracking/index.html"><div class="pf-project-top"><h3>眼动评测平台</h3><span class="pf-project-arrow" aria-hidden="true">↗</span></div><p class="pf-project-scope">界面交互与人因评测</p><img class="pf-project-image" src="../opt/su7-scanpath-card.webp" alt="眼动评测平台：小米 SU7 页面上的扫视路径示例" width="1635" height="894" decoding="async"/><div class="pf-project-details"><p><span class="pf-detail-label">设备</span><span><strong class="pf-key">Tobii 4C</strong> · <strong class="pf-key">九点精度验证</strong></span></p><p><span class="pf-detail-label">输出</span><span>热力图 / 扫视路径 / AOI 指标</span></p><p><span class="pf-detail-label">依据</span><span><strong class="pf-key pf-paper">Accident Analysis &amp; Prevention（AAP）</strong> 相关研究</span></p></div></a>
+    <a class="pf-project" data-project="driving" href="../index.html"><div class="pf-project-top"><h3>驾驶模拟平台</h3><span class="pf-project-arrow" aria-hidden="true">↗</span></div><p class="pf-project-scope">人因实验与工程开发</p><img class="pf-project-image" src="../opt/spatial-aoi.webp" width="1024" height="413" alt="驾驶模拟平台：驾驶场景与语义分割对照" decoding="async"/><div class="pf-project-details"><p><span class="pf-detail-label">环境</span><span><strong class="pf-key">Unity</strong> · <strong class="pf-key">HTC VIVE Pro Eye</strong></span></p><p><span class="pf-detail-label">采集</span><span><strong class="pf-key">眼动 / ECG 心电 / EDA 皮电 / 驾驶行为</strong></span></p><p><span class="pf-detail-label">模型</span><span><strong class="pf-key">SegFormer B2 · SAM 2.1</strong></span></p></div></a>
+    <a class="pf-project" data-project="voc" aria-current="page" href="#project-content"><div class="pf-project-top"><h3>大数据分析</h3><span class="pf-project-state">当前浏览</span></div><p class="pf-project-scope">用户洞察与数据分析</p><img class="pf-project-image" src="../voc/assets/wordcloud-xiaomi.png" alt="大数据分析：小米车主口碑中的高频积极词云" width="620" height="302" decoding="async"/><div class="pf-project-details"><p><span class="pf-detail-label">模型</span><span><strong class="pf-key">RoBERTa</strong> 情绪识别 · <strong class="pf-key">K-Means</strong> 用户画像</span></p><p><span class="pf-detail-label">处理</span><span><strong class="pf-key">Jieba 分词</strong> · 词频与维度分析</span></p><p><span class="pf-detail-label">输出</span><span>词云 / 评分矩阵 / 产品改进建议</span></p></div></a>
+    <a class="pf-project" data-project="eye" href="../eye-tracking/index.html"><div class="pf-project-top"><h3>眼动评测平台</h3><span class="pf-project-arrow" aria-hidden="true">↗</span></div><p class="pf-project-scope">界面交互与人因评测</p><img class="pf-project-image" src="../opt/su7-scanpath-card.webp" alt="眼动评测平台：小米 SU7 页面上的扫视路径示例" width="1635" height="894" decoding="async"/><div class="pf-project-details"><p><span class="pf-detail-label">设备</span><span><strong class="pf-key">便携式 Tobii 眼动仪</strong></span></p><p><span class="pf-detail-label">输出</span><span>热力图 / 扫视路径 / AOI 指标</span></p><p><span class="pf-detail-label">依据</span><span><strong class="pf-key pf-paper">Accident Analysis &amp; Prevention（AAP）</strong> 相关研究</span></p></div></a>
   </nav>
 </section>
 </div>
 
 <section class="pf-project-view" id="project-content" aria-labelledby="voc-project-title">
-<div class="pf-project-heading"><h1 id="voc-project-title">VOC 数据分析</h1><p>从用户口碑中识别情绪、需求与产品改进线索。</p></div>
+<div class="pf-project-heading"><h1 id="voc-project-title">大数据分析</h1><p>从用户口碑中识别情绪、需求与产品改进线索。</p></div>
 <div class="sheet" aria-label="新能源车VOC动态分析看板 v4">
 
 <!-- ═════ METHODOLOGY BAR ═════ -->
@@ -435,7 +476,7 @@ K-Means K=5 · jieba word freq · Rule Engine · <span id="footerTimestamp"></sp
 </div>
 </section>
 </main>
-<footer class="pf-footer"><span>王杰 · 人因研究与工程实践</span><span>VOC 数据分析</span></footer>
+<footer class="pf-footer"><span>王杰 · 人因研究与工程实践</span><span>大数据分析</span></footer>
 
 <script>
 // ============================================================
