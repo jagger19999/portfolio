@@ -526,7 +526,7 @@
     .aoi-showcase { min-width: 0; padding: 16px; border: 1px solid #e2e8f0; border-radius: 16px; background: #f8fafc; }
     .aoi-showcase-heading h5 { color: #0f172a; font-size: 15px; font-weight: 700; }
     .aoi-showcase-heading > span { display: block; margin: 5px 0 12px; color: #0f766e; font-size: 11px; }
-    .aoi-showcase video { display: block; width: 100%; height: auto; border-radius: 10px; background: #111; }
+    .aoi-showcase video, .aoi-showcase .gif-loop { display: block; width: 100%; height: auto; border-radius: 10px; background: #111; }
     .aoi-value { margin-top: 14px; color: #64748b; font-size: 12px; line-height: 1.9; }
     .aoi-value h6 { margin: 0 0 12px; color: #0f172a; font-size: 14px; font-weight: 600; }
     .aoi-comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
@@ -751,9 +751,9 @@
 <section class="pf-directory" aria-labelledby="project-directory-title">
   <div class="pf-directory-heading"><h2 id="project-directory-title">项目目录</h2></div>
   <nav class="pf-projects" aria-label="三个项目">
-    <a class="pf-project" data-project="driving" aria-current="page" href="#overview"><div class="pf-project-top"><h3>驾驶模拟平台</h3><span class="pf-project-state">当前浏览</span></div><p class="pf-project-scope">人因实验与工程开发</p><img class="pf-project-image pf-project-image-scene" src="./驾驶场景.png" alt="驾驶模拟平台：参与者在实体座舱中操控方向盘进行驾驶实验" width="648" height="415" decoding="async"/><div class="pf-project-details"><p><span class="pf-detail-label">环境</span><span><strong class="pf-key">Unity</strong> · <strong class="pf-key">HTC VIVE Pro Eye</strong></span></p><p><span class="pf-detail-label">采集</span><span><strong class="pf-key">眼动 / ECG 心电 / EDA 皮电 / 驾驶行为</strong></span></p><p><span class="pf-detail-label">模型</span><span><strong class="pf-key">SegFormer B2 · SAM 2.1</strong></span></p></div></a>
+    <a class="pf-project" data-project="driving" aria-current="page" href="#overview"><div class="pf-project-top"><h3>驾驶模拟平台</h3><span class="pf-project-state">当前浏览</span></div><p class="pf-project-scope">人因实验与工程开发</p><img class="pf-project-image pf-project-image-scene" src="./opt/driving-scene.webp" alt="驾驶模拟平台：参与者在实体座舱中操控方向盘进行驾驶实验" width="648" height="415" decoding="async"/><div class="pf-project-details"><p><span class="pf-detail-label">环境</span><span><strong class="pf-key">Unity</strong> · <strong class="pf-key">HTC VIVE Pro Eye</strong></span></p><p><span class="pf-detail-label">采集</span><span><strong class="pf-key">眼动 / ECG 心电 / EDA 皮电 / 驾驶行为</strong></span></p><p><span class="pf-detail-label">模型</span><span><strong class="pf-key">SegFormer B2 · SAM 2.1</strong></span></p></div></a>
     <a class="pf-project" data-project="voc" href="./voc/index.html"><div class="pf-project-top"><h3>VOC 数据分析</h3><span class="pf-project-arrow" aria-hidden="true">↗</span></div><p class="pf-project-scope">用户洞察与数据分析</p><img class="pf-project-image" src="./voc/assets/wordcloud-xiaomi.png" alt="VOC 数据分析：小米车主口碑中的高频积极词云" width="620" height="302" decoding="async"/><div class="pf-project-details"><p><span class="pf-detail-label">模型</span><span><strong class="pf-key">RoBERTa</strong> 情绪识别 · <strong class="pf-key">K-Means</strong> 用户画像</span></p><p><span class="pf-detail-label">处理</span><span><strong class="pf-key">Jieba 分词</strong> · 词频与维度分析</span></p><p><span class="pf-detail-label">输出</span><span>词云 / 评分矩阵 / 产品改进建议</span></p></div></a>
-    <a class="pf-project" data-project="eye" href="./eye-tracking/index.html"><div class="pf-project-top"><h3>眼动评测平台</h3><span class="pf-project-arrow" aria-hidden="true">↗</span></div><p class="pf-project-scope">界面交互与人因评测</p><img class="pf-project-image" src="./eye-tracking/assets/su7-scanpath-20261017.png" alt="眼动评测平台：小米 SU7 页面上的扫视路径示例" width="1635" height="894" decoding="async"/><div class="pf-project-details"><p><span class="pf-detail-label">设备</span><span><strong class="pf-key">Tobii 4C</strong> · <strong class="pf-key">九点精度验证</strong></span></p><p><span class="pf-detail-label">输出</span><span>热力图 / 扫视路径 / AOI 指标</span></p><p><span class="pf-detail-label">依据</span><span><strong class="pf-key pf-paper">Accident Analysis &amp; Prevention（AAP）</strong> 相关研究</span></p></div></a>
+    <a class="pf-project" data-project="eye" href="./eye-tracking/index.html"><div class="pf-project-top"><h3>眼动评测平台</h3><span class="pf-project-arrow" aria-hidden="true">↗</span></div><p class="pf-project-scope">界面交互与人因评测</p><img class="pf-project-image" src="./opt/su7-scanpath-card.webp" alt="眼动评测平台：小米 SU7 页面上的扫视路径示例" width="1635" height="894" decoding="async"/><div class="pf-project-details"><p><span class="pf-detail-label">设备</span><span><strong class="pf-key">Tobii 4C</strong> · <strong class="pf-key">九点精度验证</strong></span></p><p><span class="pf-detail-label">输出</span><span>热力图 / 扫视路径 / AOI 指标</span></p><p><span class="pf-detail-label">依据</span><span><strong class="pf-key pf-paper">Accident Analysis &amp; Prevention（AAP）</strong> 相关研究</span></p></div></a>
   </nav>
 </section>
 </div>
@@ -785,14 +785,14 @@
 <div class="simulation-comparison" aria-label="两种并列的驾驶模拟仿真实验形式">
   <section class="simulation-panel" aria-labelledby="physical-simulation-title">
     <h4 id="physical-simulation-title" class="simulation-heading">实体驾驶模拟仿真环境</h4>
-    <img alt="实体驾驶模拟器与外部屏幕构成的驾驶模拟仿真实验环境" class="simulation-main" src="./驾驶场景.png"/>
+    <img alt="实体驾驶模拟器与外部屏幕构成的驾驶模拟仿真实验环境" class="simulation-main" decoding="async" loading="lazy" src="./opt/driving-scene.webp"/>
     <p class="simulation-description">实体操控与外部屏幕呈现驾驶场景。</p>
   </section>
   <section class="simulation-panel" aria-labelledby="vr-simulation-title">
     <h4 id="vr-simulation-title" class="simulation-heading">佩戴 VR 头显的驾驶模拟仿真环境</h4>
     <div class="vr-branch" aria-label="HTC 头显连接实际实验场景与 VR 内画面">
       <figure class="vr-device-figure">
-        <img alt="HTC VIVE Pro Eye 官方产品图" src="./vive-pro-eye-official.jpg"/>
+        <img alt="HTC VIVE Pro Eye 官方产品图" decoding="async" loading="lazy" src="./vive-pro-eye-official.jpg"/>
         <figcaption><strong class="pf-key">HTC VIVE Pro Eye</strong> · Tobii 眼动追踪<br/><a href="https://www.vive.com/sea/product/vive-pro-eye/overview/" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2">图片来源：HTC 官网</a></figcaption>
       </figure>
       <svg class="vr-branch-arrows" viewBox="0 0 80 280" fill="none" aria-hidden="true" preserveAspectRatio="none">
@@ -802,13 +802,11 @@
       </svg>
       <div class="vr-views">
         <figure class="vr-view">
-          <img alt="参与者在实际实验场景中佩戴 VR 头显进行驾驶模拟仿真" src="./vr1.jpg"/>
+          <img alt="参与者在实际实验场景中佩戴 VR 头显进行驾驶模拟仿真" decoding="async" loading="lazy" src="./vr1.jpg"/>
           <figcaption>实际实验场景</figcaption>
         </figure>
         <figure class="vr-view">
-          <video aria-label="VR 画面：用于评估驾驶员反应时间的 AR-HUD 告警仿真" autoplay loop muted playsinline preload="metadata">
-            <source src="./ar-hud-demo-h264.mp4" type="video/mp4"/>
-          </video>
+          <img class="gif-loop" alt="VR 画面：用于评估驾驶员反应时间的 AR-HUD 告警仿真" decoding="async" loading="lazy" src="./opt/gif/ar-hud.gif"/>
           <figcaption>VR 画面 · AR-HUD 告警仿真</figcaption>
           <p>比较不同告警时机下的驾驶员反应时间，评估 AR-HUD 告警效果。</p>
         </figure>
@@ -828,28 +826,28 @@
 
 <div class="signal-grid mt-5">
   <div class="signal-card">
-    <img alt="眼动追踪数据接入" src="./眼动仪.webp"/>
+    <img alt="眼动追踪数据接入" decoding="async" loading="lazy" src="./眼动仪.webp"/>
     <div>
       <p class="pf-key">眼动追踪</p>
       <p>视线轨迹 · 注视点 · AOI 分析</p>
     </div>
   </div>
   <div class="signal-card">
-    <img alt="心电与心率数据接入" src="./心电 ecg.png"/>
+    <img alt="心电与心率数据接入" decoding="async" loading="lazy" src="./心电 ecg.png"/>
     <div>
       <p class="pf-key">ECG 心电 / 心率</p>
       <p>HR · HRV · 疲劳与负荷变化</p>
     </div>
   </div>
   <div class="signal-card">
-    <img alt="驾驶行为数据接入" src="./驾驶情景.png"/>
+    <img alt="驾驶行为数据接入" decoding="async" loading="lazy" src="./opt/drive-context.webp"/>
     <div>
       <p class="pf-key">驾驶行为指标</p>
       <p>车速 · 车道偏移 · 操作反应</p>
     </div>
   </div>
   <div class="signal-card">
-    <img alt="皮肤电数据接入" src="./eda 采集.png"/>
+    <img alt="皮肤电数据接入" decoding="async" loading="lazy" src="./eda 采集.png"/>
     <div>
       <p class="pf-key">EDA 皮电</p>
       <p>EDA · 唤醒水平 · 风险刺激反应</p>
@@ -887,13 +885,13 @@
 
       <!-- Software node — floating on BLUE line -->
       <div class="software-node">
-        <img alt="多模态同步采集软件界面" src="./多模态同步软件.png"/>
+        <img alt="多模态同步采集软件界面" decoding="async" loading="lazy" src="./opt/sync-software.webp"/>
         <p>Sync Software · 时间偏移校正 + 统一时钟</p>
       </div>
 
       <!-- Event scene node — floating on RED line -->
       <div class="event-node">
-        <img alt="应急事件触发场景" src="./应急事件.png"/>
+        <img alt="应急事件触发场景" decoding="async" loading="lazy" src="./应急事件.png"/>
         <p>E_brake · 应急制动场景</p>
       </div>
 
@@ -918,7 +916,7 @@
       <!-- === LANE 1: Eye Tracking === -->
       <div class="h-lane">
         <div class="mod-card">
-          <img alt="眼动仪" src="./眼动仪.webp"/>
+          <img alt="眼动仪" decoding="async" loading="lazy" src="./眼动仪.webp"/>
           <div class="mod-text">
             <p>眼动 / Tobii Pro、Pupil Core</p>
             <p class="mono">50 Hz · I-VT 分析</p>
@@ -932,7 +930,7 @@
       <!-- === LANE 2: ECG === -->
       <div class="h-lane">
         <div class="mod-card">
-          <img alt="心率" src="./心电 ecg.png"/>
+          <img alt="心率" decoding="async" loading="lazy" src="./心电 ecg.png"/>
           <div class="mod-text">
             <p>心率 ECG / HRV</p>
             <p class="mono">1000 Hz · PQRST</p>
@@ -946,7 +944,7 @@
       <!-- === LANE 3: Driving Behavior === -->
       <div class="h-lane">
         <div class="mod-card">
-          <img alt="驾驶行为" src="./驾驶情景.png"/>
+          <img alt="驾驶行为" decoding="async" loading="lazy" src="./opt/drive-context.webp"/>
           <div class="mod-text">
             <p>驾驶行为指标</p>
             <p class="mono">Event Log · 方波</p>
@@ -960,7 +958,7 @@
       <!-- === LANE 4: EDA === -->
       <div class="h-lane">
         <div class="mod-card">
-          <img alt="皮肤电" src="./eda 采集.png"/>
+          <img alt="皮肤电" decoding="async" loading="lazy" src="./eda 采集.png"/>
           <div class="mod-text">
             <p>皮肤电 EDA</p>
             <p class="mono">1000 Hz · SCR</p>
@@ -1007,10 +1005,7 @@
 <p class="mt-4 text-sm leading-7 text-slate-600">结合 <strong class="pf-key">SegFormer B2 语义分割</strong>、任务适配微调与 <strong class="pf-key">SAM 2.1 提示辅助分割</strong>，生成动态 AOI 候选，映射真实眼动坐标，完成区域归属与停留统计。</p>
 <div class="analysis-media">
   <section class="aoi-showcase" aria-label="动态 AOI 识别与眼动映射">
-    <video aria-label="真实驾驶画面与语义分割对照，双侧白圈为同一真实眼动点" autoplay controls loop muted playsinline preload="metadata" poster="./aoi-demo/media/poster.jpg">
-      <source src="./aoi-demo/media/aoi-loop-green-5s.mp4" type="video/mp4"/>
-      <a href="./aoi-demo/media/aoi-loop-green-5s.mp4">播放 AOI 分析演示</a>
-    </video>
+    <img class="gif-loop" alt="真实驾驶画面与语义分割对照，双侧白圈为同一真实眼动点" decoding="async" loading="lazy" src="./opt/gif/aoi-loop.gif"/>
     <div class="aoi-value"><h5>减少人工标注，统一分析口径</h5><div class="aoi-comparison"><div class="aoi-traditional"><strong><span aria-hidden="true">✕</span> 传统 AOI 划分</strong><p>人工逐帧划区、持续更新边界；重复工作多，标注口径易因人而异。</p></div><div class="aoi-current"><strong><span aria-hidden="true">✓</span> 智能 AOI 分析</strong><p>融合语义分割与任务微调，自动生成区域候选并映射眼动点，形成统一的统计流程。</p></div></div></div>
     <div class="aoi-outcomes"><span>眼动点区域归属</span><span>区域停留时长与占比</span><span>AOI 访问与切换</span></div>
     <div class="aoi-tech" aria-label="技术方法"><span class="pf-key">SegFormer B2</span><span class="pf-key">SAM 2.1</span><span>迁移学习与任务微调</span><span>空间位置特征融合</span><span>提示辅助跟踪</span><span>眼动时空映射</span></div>
@@ -1029,11 +1024,11 @@
     <div class="pf-research-copy"><h4>国际会议汇报</h4><p>完成人因工程与智能系统交互国际会议汇报，展示驾驶模拟平台、多模态分析与研究成果。</p></div>
     <div class="mt-5 grid gap-4 sm:grid-cols-2">
       <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
-        <img alt="会议现场1" class="aspect-video w-full rounded-2xl border border-slate-200 object-cover" src="./场景 1.jpg"/>
+        <img alt="会议现场1" class="aspect-video w-full rounded-2xl border border-slate-200 object-cover" decoding="async" loading="lazy" src="./场景 1.jpg"/>
         <p class="mt-3 text-xs font-semibold text-slate-900">会议现场</p>
       </div>
       <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
-        <img alt="会议现场2" class="aspect-video w-full rounded-2xl border border-slate-200 object-cover" src="./场景 2.jpg"/>
+        <img alt="会议现场2" class="aspect-video w-full rounded-2xl border border-slate-200 object-cover" decoding="async" loading="lazy" src="./场景 2.jpg"/>
         <p class="mt-3 text-xs font-semibold text-slate-900">会议现场</p>
       </div>
     </div>
@@ -1042,7 +1037,7 @@
     <div class="pf-research-copy"><h4>眼动心理学术年会口头汇报</h4><p>研究《中央绿化隔离带对高速驾驶警觉度的影响：基于注视熵的眼动证据》。</p><p><strong class="pf-key">关键结果：</strong>绿化隔离带条件下，静态与动态注视熵均更高，呈现更广泛、灵活的视觉搜索模式。</p></div>
     <div class="mt-5 grid gap-4 sm:grid-cols-2">
       <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
-        <img alt="注视熵眼动可视化机制" class="aspect-video w-full rounded-2xl border border-slate-200 object-cover bg-white" loading="lazy" src="./fig4-gaze-mechanism.gif"/>
+        <img class="gif-loop aspect-video w-full rounded-2xl border border-slate-200 object-cover bg-white" alt="注视熵眼动可视化机制" decoding="async" loading="lazy" src="./opt/gif/fig4-gaze.gif"/>
         <p class="mt-3 text-xs font-semibold text-slate-900">注视熵眼动可视化机制</p>
       </div>
       <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
@@ -1520,6 +1515,37 @@ window.console = new Proxy(console, {
     return target[prop];
   }
 });
+</script>
+<script>
+(function () {
+  var videos = document.querySelectorAll("video.pf-defer");
+  if (!videos.length) return;
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce || !("IntersectionObserver" in window)) {
+    videos.forEach(function (video) {
+      video.preload = "none";
+      video.controls = true;
+    });
+    return;
+  }
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      var video = entry.target;
+      if (entry.isIntersecting) {
+        if (!video.dataset.armed) {
+          video.dataset.armed = "1";
+          video.preload = "auto";
+          video.load();
+        }
+        var play = video.play();
+        if (play && play.catch) play.catch(function () {});
+      } else if (!video.paused) {
+        video.pause();
+      }
+    });
+  }, { rootMargin: "240px 0px" });
+  videos.forEach(function (video) { observer.observe(video); });
+})();
 </script>
 </body>
 </html>
