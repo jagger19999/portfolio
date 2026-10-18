@@ -80,7 +80,13 @@
 .pf-overview-description { margin: 0; max-width: 62ch; color: var(--pf-muted); font-size: 13px; line-height: 1.75; }
 .pf-driving .case-shell { background: transparent; }
 .pf-driving :is(h1, h2, h3, h4, h5, h6) { font-family: inherit; }
-.pf-driving #modules { margin-top: 32px; }
+.pf-driving #modules, .pf-intro #studies { margin-top: 32px; }
+.pf-intro .pf-module { min-width: 0; padding: 24px 28px; border: 1px solid var(--pf-line); border-radius: 16px; background: #fff; }
+.pf-intro .pf-module-head { display: flex; align-items: center; gap: 12px; }
+.pf-intro .pf-module-index { display: grid; place-items: center; flex-shrink: 0; width: 32px; height: 32px; border: 1px solid #edc9ad; border-radius: 6px; color: var(--pf-accent); font-family: "IBM Plex Mono", monospace; font-size: 12px; }
+.pf-intro .pf-module h3 { margin: 0; font-size: 18px; font-weight: 800; line-height: 1.4; }
+.pf-intro .pf-module-meta { margin: 10px 0 0; color: var(--pf-accent); font-size: 12px; font-weight: 700; line-height: 1.6; }
+.pf-intro .pf-methods { margin-top: 20px; }
 .pf-section-heading { margin-bottom: 16px; }
 .pf-section-heading h2 { margin: 0; font-size: 20px; font-weight: 800; line-height: 1.4; }
 .pf-module-list { display: grid; gap: 20px; }
@@ -165,7 +171,8 @@
   .pf-header-inner { width: calc(100% - 32px); min-height: 0; padding: 14px 0 8px; flex-direction: column; align-items: flex-start; gap: 6px; }
   .pf-brand { font-size: 15px; }
   .pf-brand-mark { width: 27px; height: 27px; font-size: 10px; }
-  .pf-nav { width: 100%; gap: 22px; justify-content: space-between; }
+  .pf-nav { width: 100%; gap: 16px 18px; justify-content: space-between; }
+  .pf-intro .pf-module { padding: 18px 16px; }
   .pf-nav a { font-size: 12px; padding: 8px 0; }
   .pf-main, .pf-footer { width: calc(100% - 32px); }
   .pf-main { padding-top: 26px; padding-bottom: 32px; }

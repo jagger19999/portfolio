@@ -1,0 +1,98 @@
+/* Resume presentation is scoped to the introduction page. */
+.pf-intro .cv-resume { color: var(--pf-ink); }
+.pf-intro .cv-introduction { padding: 28px 32px; border: 1px solid #edc9ad; border-radius: 16px; background: #fff9f3; }
+.pf-intro .cv-introduction h1 { margin: 0 0 18px; font-size: clamp(30px, 3vw, 40px); font-weight: 600; line-height: 1.2; letter-spacing: -.04em; }
+.pf-intro .cv-summary { max-width: 82em; margin: 0; color: var(--pf-muted); font-size: 15px; line-height: 1.9; }
+.pf-intro .cv-summary strong { color: var(--pf-ink); font-weight: 700; }
+.pf-intro .cv-capabilities { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 0; padding: 0; list-style: none; }
+.pf-intro .cv-capabilities li { padding: 5px 10px; border: 1px solid #edc9ad; border-radius: 5px; background: #fff; color: var(--pf-accent); font-size: 12px; line-height: 1.6; }
+.pf-intro .cv-layout { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 40px; align-items: start; margin-top: 40px; }
+.pf-intro .cv-toc { position: sticky; top: 108px; display: grid; gap: 6px; padding: 4px 0; }
+.pf-intro .cv-toc p { margin: 0 0 8px; color: var(--pf-muted); font-size: 12px; line-height: 1.6; }
+.pf-intro .cv-toc a { display: flex; align-items: center; gap: 12px; padding: 9px 10px; border-radius: 5px; color: var(--pf-ink); font-size: 13px; line-height: 1.6; text-decoration: none; transition: color .18s, background .18s; }
+.pf-intro .cv-toc a span { color: var(--pf-accent); font: 500 11px/1.6 "IBM Plex Mono", ui-monospace, monospace; }
+.pf-intro .cv-toc a:hover, .pf-intro .cv-toc a:focus-visible { color: var(--pf-accent); background: var(--pf-soft); }
+.pf-intro .cv-sections { display: grid; min-width: 0; gap: 40px; }
+.pf-intro .cv-section-heading { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.pf-intro .cv-section-heading > span { display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid #edc9ad; border-radius: 6px; color: var(--pf-accent); font: 500 12px/1 "IBM Plex Mono", ui-monospace, monospace; }
+.pf-intro .cv-section-heading h2 { margin: 0; font-size: 23px; font-weight: 700; line-height: 1.4; letter-spacing: -.025em; }
+.pf-intro .cv-education-list { padding: 4px 24px; border: 1px solid var(--pf-line); border-radius: 12px; background: #fff; }
+.pf-intro .cv-education { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 16px; padding: 22px 0; }
+.pf-intro .cv-education + .cv-education { border-top: 1px solid var(--pf-line); }
+.pf-intro .cv-education > img { width: 40px; height: 40px; object-fit: contain; }
+.pf-intro .cv-entry-heading { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 24px; }
+.pf-intro .cv-entry-heading h3 { margin: 0; font-size: 17px; font-weight: 700; line-height: 1.5; }
+.pf-intro .cv-date { margin: 0; color: var(--pf-accent); font: 400 12px/1.7 "IBM Plex Mono", ui-monospace, monospace; }
+.pf-intro .cv-degree { margin: 5px 0 10px; font-size: 14px; font-weight: 600; line-height: 1.7; }
+.pf-intro .cv-career-list, .pf-intro .cv-project-list { display: grid; gap: 18px; }
+.pf-intro .cv-work, .pf-intro .cv-project { min-width: 0; padding: 26px 28px; border: 1px solid var(--pf-line); border-radius: 12px; background: #fff; }
+.pf-intro .cv-work-heading { display: grid; grid-template-columns: 42px minmax(0, 1fr) auto; gap: 14px; align-items: start; padding-bottom: 20px; border-bottom: 1px solid var(--pf-line); }
+.pf-intro .cv-work-heading > img { width: 36px; height: 30px; margin-top: 3px; object-fit: contain; }
+.pf-intro .cv-work-heading h3 { margin: 0; font-size: 19px; font-weight: 700; line-height: 1.5; }
+.pf-intro .cv-work-heading .cv-date { padding-top: 4px; }
+.pf-intro .cv-role { margin: 5px 0 0; color: var(--pf-muted); font-size: 14px; line-height: 1.7; }
+.pf-intro .cv-employment { display: inline-block; margin-left: 8px; padding: 1px 7px; border: 1px solid #edc9ad; border-radius: 4px; color: var(--pf-accent); background: var(--pf-soft); font-size: 11px; font-weight: 600; vertical-align: 1px; }
+.pf-intro .cv-copy { display: grid; gap: 14px; margin-top: 20px; }
+.pf-intro .cv-statement { margin: 0; color: var(--pf-muted); font-size: 14px; line-height: 1.9; overflow-wrap: break-word; }
+.pf-intro .cv-statement strong, .pf-intro .cv-statement b { color: var(--pf-ink); font-weight: 700; }
+.pf-intro #cv-harmony .cv-statement .cv-lead { color: var(--pf-accent); }
+.pf-intro .cv-project-list { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; }
+.pf-intro .cv-project { display: flex; flex-direction: column; padding: 24px; }
+.pf-intro .cv-project h3 { margin: 0; font-size: 18px; font-weight: 700; line-height: 1.6; }
+.pf-intro .cv-technical { font-size: .86em; letter-spacing: .015em; }
+.pf-intro .cv-project-meta { display: grid; gap: 4px; margin: 10px 0 0; color: var(--pf-accent); font-size: 12px; line-height: 1.7; }
+.pf-intro .cv-project .cv-copy { margin-top: 18px; gap: 12px; }
+.pf-intro .cv-metric { color: var(--pf-accent); font-weight: 700; }
+.pf-intro .cv-project-link, .pf-intro .cv-project-work { margin: auto 0 0; padding-top: 20px; color: var(--pf-accent); font-size: 12px; font-weight: 600; line-height: 1.8; }
+.pf-intro .cv-project-link, .pf-intro .cv-project-work a { color: var(--pf-accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.pf-intro .cv-project-work strong { color: var(--pf-ink); }
+.pf-intro .cv-results { padding: 26px 28px; border: 1px solid var(--pf-line); border-radius: 12px; background: #fff; }
+.pf-intro .cv-results > p + p { margin-top: 14px; }
+.pf-intro .cv-tools { display: grid; grid-template-columns: 4em minmax(0, 1fr); gap: 16px; align-items: baseline; margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--pf-line); }
+.pf-intro .cv-tools h3 { margin: 0; font-size: 14px; font-weight: 700; line-height: 1.7; }
+.pf-intro .cv-tools ul { display: flex; flex-wrap: wrap; gap: 7px; margin: 0; padding: 0; list-style: none; }
+.pf-intro .cv-tools li { padding: 4px 8px; border: 1px solid var(--pf-line); border-radius: 4px; color: var(--pf-ink); font: 400 12px/1.6 "IBM Plex Mono", ui-monospace, monospace; }
+@media (max-width: 1100px) {
+  .pf-intro .cv-layout { grid-template-columns: 132px minmax(0, 1fr); gap: 24px; }
+  .pf-intro .cv-project-list { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 767px) {
+  .pf-intro .pf-nav { column-gap: 10px; row-gap: 6px; }
+  .pf-intro .cv-introduction { padding: 22px 18px; border-radius: 12px; }
+  .pf-intro .cv-introduction h1 { margin-bottom: 14px; font-size: 28px; }
+  .pf-intro .cv-summary { font-size: 14px; line-height: 1.85; }
+  .pf-intro .cv-capabilities { margin-top: 16px; gap: 6px; }
+  .pf-intro .cv-capabilities li { padding: 4px 8px; font-size: 11px; }
+  .pf-intro .cv-layout { grid-template-columns: minmax(0, 1fr); gap: 26px; margin-top: 26px; }
+  .pf-intro .cv-toc { position: static; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 10px; padding-bottom: 18px; border-bottom: 1px solid var(--pf-line); }
+  .pf-intro .cv-toc p { display: none; }
+  .pf-intro .cv-toc a { padding: 6px 8px; }
+  .pf-intro .cv-sections { gap: 28px; }
+  .pf-intro .cv-section-heading { align-items: start; gap: 10px; margin-bottom: 14px; }
+  .pf-intro .cv-section-heading > span { flex-shrink: 0; width: 28px; height: 28px; }
+  .pf-intro .cv-section-heading h2 { font-size: 20px; line-height: 1.5; }
+  .pf-intro .cv-education-list { padding: 0 16px; }
+  .pf-intro .cv-education { grid-template-columns: 32px minmax(0, 1fr); gap: 12px; padding: 18px 0; }
+  .pf-intro .cv-education > img { width: 32px; height: 32px; }
+  .pf-intro .cv-entry-heading { gap: 5px; }
+  .pf-intro .cv-entry-heading h3 { font-size: 16px; }
+  .pf-intro .cv-degree { font-size: 13px; }
+  .pf-intro .cv-work, .pf-intro .cv-project, .pf-intro .cv-results { padding: 20px 18px; }
+  .pf-intro .cv-work-heading { grid-template-columns: 32px minmax(0, 1fr); gap: 10px; padding-bottom: 16px; }
+  .pf-intro .cv-work-heading > img { width: 28px; height: 26px; }
+  .pf-intro .cv-work-heading h3 { font-size: 17px; }
+  .pf-intro .cv-work-heading > .cv-date { grid-column: 2; padding-top: 0; }
+  .pf-intro .cv-role { font-size: 13px; }
+  .pf-intro .cv-copy { margin-top: 16px; gap: 12px; }
+  .pf-intro .cv-project h3 { font-size: 17px; }
+  .pf-intro .cv-statement { font-size: 14px; line-height: 1.85; }
+  .pf-intro .cv-tools { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+}
+@media print {
+  .pf-intro .cv-toc { display: none; }
+  .pf-intro .cv-layout { display: block; }
+  .pf-intro .cv-introduction { padding: 16px 0; border: 0; background: transparent; }
+  .pf-intro .cv-sections { gap: 20px; }
+  .pf-intro .cv-project-list { grid-template-columns: minmax(0, 1fr); }
+  .pf-intro .cv-education, .pf-intro .cv-work, .pf-intro .cv-project, .pf-intro .cv-results { break-inside: avoid; }
+}
